@@ -1,0 +1,26 @@
+# ssh-config — reference defaults
+#
+# Put host-specific entries in ~/.ssh/config.d/ and include them:
+#   Include ~/.ssh/config.d/*
+#
+# This file provides global defaults only.
+
+Host *
+    # Connection multiplexing — reuse connections to the same host
+    ControlMaster auto
+    ControlPath ~/.ssh/sockets/%r@%h-%p
+    ControlPersist 600
+
+    # Add keys to agent on first use
+    AddKeysToAgent yes
+
+    # Keep connections alive through NAT/firewall timeouts
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+
+    # Prefer modern algorithms
+    HostKeyAlgorithms ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-ed25519,rsa-sha2-512,rsa-sha2-256
+
+    # Disable password auth by default (use keys)
+    PasswordAuthentication no
+    PreferredAuthentications publickey

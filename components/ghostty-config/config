@@ -1,0 +1,96 @@
+# MIT License
+#
+# Copyright (c) 2025 Andrew Vasilyev <me@retran.me>
+#
+# @file: components/ghostty-config/config
+# @brief: Ghostty terminal emulator configuration
+
+# ============================================================================
+# FONT
+# ============================================================================
+font-family = "JetBrainsMono Nerd Font Mono"
+font-style = "SemiBold"
+font-size = 14
+font-feature = -calt
+adjust-cell-width = 0
+adjust-cell-height = 0
+
+# ============================================================================
+# WINDOW
+# ============================================================================
+window-width = 120
+window-height = 40
+window-padding-x = 4
+window-padding-y = 4
+window-save-state = always
+window-vsync = true
+window-inherit-working-directory = true
+window-inherit-font-size = true
+
+macos-titlebar-style = transparent
+macos-non-native-fullscreen = true
+
+# ============================================================================
+# VISUAL
+# ============================================================================
+background-opacity = 1.0
+background-blur-radius = 0
+cursor-style = block
+cursor-style-blink = false
+
+# ============================================================================
+# SHELL
+# ============================================================================
+shell-integration = fish
+shell-integration-features = cursor,sudo,title,ssh-env,ssh-terminfo
+
+# ============================================================================
+# CLIPBOARD
+# ============================================================================
+clipboard-read = allow
+clipboard-write = allow
+clipboard-paste-protection = true
+clipboard-paste-bracketed-safe = true
+copy-on-select = false
+
+# ============================================================================
+# INPUT
+# ============================================================================
+macos-option-as-alt = left
+
+mouse-hide-while-typing = true
+mouse-scroll-multiplier = 1.0
+
+# ============================================================================
+# PERFORMANCE
+# ============================================================================
+scrollback-limit = 50000
+
+# ============================================================================
+# TERMINAL
+# ============================================================================
+term = xterm-ghostty
+bold-is-bright = false
+resize-overlay = always
+
+# ============================================================================
+# KEYBINDINGS
+# ============================================================================
+keybind = cmd+t=new_tab
+keybind = cmd+w=close_surface
+keybind = cmd+shift+[=previous_tab
+keybind = cmd+shift+]=next_tab
+keybind = cmd+n=new_window
+keybind = cmd+shift+n=new_tab
+keybind = cmd+plus=increase_font_size:1
+keybind = cmd+minus=decrease_font_size:1
+keybind = cmd+0=reset_font_size
+keybind = cmd+c=copy_to_clipboard
+keybind = cmd+v=paste_from_clipboard
+keybind = cmd+f=toggle_quick_terminal
+
+# ============================================================================
+# THEME
+# ============================================================================
+# Theme file must exist in ~/.config/ghostty/themes/.
+theme = catppuccin-mocha

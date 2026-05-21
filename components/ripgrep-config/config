@@ -1,0 +1,30 @@
+# ripgrep configuration
+# See: https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md#configuration-file
+
+--smart-case
+--line-number
+--follow
+--hidden
+
+--glob=!.git/
+--glob=!node_modules/
+--glob=!.npm/
+--glob=!.cache/
+--glob=!vendor/
+--glob=!dist/
+--glob=!build/
+--glob=!target/
+--glob=!__pycache__/
+--glob=!*.pyc
+--glob=!.DS_Store
+
+--max-columns=500
+--max-columns-preview
+
+# Catppuccin Mocha colors
+--colors=path:fg:166,227,161
+--colors=path:style:bold
+--colors=line:fg:249,226,175
+--colors=match:fg:243,139,168
+--colors=match:style:bold
+--colors=column:fg:148,226,213

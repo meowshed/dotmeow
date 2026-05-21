@@ -1,0 +1,97 @@
+[core]
+    autocrlf = input
+    editor = nvim
+    pager = delta
+    excludesFile = ~/.config/git/ignore
+    fsmonitor = true
+    untrackedCache = true
+
+[delta]
+    navigate = true
+    light = false
+    line-numbers = true
+    side-by-side = true
+    true-color = always
+    syntax-theme = Catppuccin Mocha
+
+    # File and hunk headers
+    file-style = "#89b4fa" bold
+    file-decoration-style = "#89b4fa" ul
+    hunk-header-style = file line-number syntax
+    hunk-header-file-style = "#cba6f7"
+    hunk-header-line-number-style = bold "#f9e2af"
+    hunk-header-decoration-style = "#45475a" box
+
+    # Line numbers
+    line-numbers-left-style = "#45475a"
+    line-numbers-right-style = "#45475a"
+    line-numbers-minus-style = "#f38ba8"
+    line-numbers-plus-style = "#a6e3a1"
+    line-numbers-zero-style = "#6c7086"
+
+    # Diff content
+    minus-style = syntax "#483346"
+    minus-emph-style = syntax "#684458"
+    plus-style = syntax "#394545"
+    plus-emph-style = syntax "#4d6256"
+
+    # Commit/blame
+    commit-decoration-style = "#cba6f7" bold box
+    blame-palette = "#45475a" "#585b70" "#6c7086" "#7f849c" "#a6adc8"
+
+    # Other
+    zero-style = syntax
+    whitespace-error-style = "#f38ba8" reverse
+
+[interactive]
+    diffFilter = delta --color-only
+
+[merge]
+    conflictstyle = zdiff3
+
+[diff]
+    colorMoved = default
+    algorithm = histogram
+    mnemonicPrefix = true
+    renames = copies
+
+[fetch]
+    prune = true
+    prunetags = true
+    parallel = 0
+
+[pull]
+    rebase = true
+
+[push]
+    autoSetupRemote = true
+    followTags = true
+
+[rebase]
+    autoStash = true
+    autoSquash = true
+    updateRefs = true
+
+[rerere]
+    enabled = true
+
+[branch]
+    sort = -committerdate
+
+[tag]
+    sort = version:refname
+
+[log]
+    date = iso
+
+[status]
+    showUntrackedFiles = all
+
+[help]
+    autocorrect = prompt
+
+[init]
+    defaultBranch = main
+
+[include]
+    path = ~/.config/git/local.gitconfig

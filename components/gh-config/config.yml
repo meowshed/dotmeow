@@ -1,0 +1,18 @@
+# gh config — reference defaults
+#
+# Run `gh auth login` on first use to populate ~/.config/gh/hosts.yml.
+
+version: 1
+git_protocol: ssh
+editor:
+prompt: enabled
+prefer_editor_prompt: disabled
+pager:
+aliases:
+    co: pr checkout
+http_unix_socket:
+browser:
+color_labels: disabled
+accessible_colors: disabled
+accessible_prompter: disabled
+spinner: enabled

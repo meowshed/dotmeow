@@ -1,0 +1,31 @@
+# ~/.config/tealdeer/config.toml
+# Tealdeer configuration — https://tealdeer-rs.github.io/tealdeer/config.html
+
+[display]
+use_pager = true
+compact = false
+
+[updates]
+auto_update = true
+auto_update_interval_hours = 720
+
+[search]
+# macOS first, then common across all platforms, then fall through to rest.
+platforms = ["macos", "common", "all"]
+
+[style.command_name]
+foreground = "#89b4fa"
+bold = true
+
+[style.description]
+foreground = "#cdd6f4"
+
+[style.example_text]
+foreground = "#94e2d5"
+
+[style.example_code]
+foreground = "#a6e3a1"
+
+[style.example_variable]
+foreground = "#94e2d5"
+underline = true
