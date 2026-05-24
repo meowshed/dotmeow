@@ -48,6 +48,7 @@
 
 [merge]
     conflictstyle = zdiff3
+    ff = false
 
 [diff]
     colorMoved = default
@@ -61,7 +62,7 @@
     parallel = 0
 
 [pull]
-    rebase = true
+    rebase = merges
 
 [push]
     autoSetupRemote = true

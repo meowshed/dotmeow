@@ -28,7 +28,7 @@
 
 add_newline = true
 
-command_timeout = 500
+command_timeout = 2000
 scan_timeout = 100
 
 format = """

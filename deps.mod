@@ -1,5 +1,0 @@
-module(name = "dotmeow", version = "0.1.0")
-dep(name = "stdlib", version = "0.1.3")
-dep(name = "adaptive-keyboard-layouts", version = "0.1.1")
-dep(name = "zjstatus-widgets", version = "0.1.1")
-dep(name = "meowvim-keyboard-layouts", version = "0.1.1")

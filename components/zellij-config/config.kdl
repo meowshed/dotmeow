@@ -1,5 +1,5 @@
 // Zellij configuration for Meow dotfiles.
-// layout_dir and theme_dir are rewritten to absolute paths by setup.sh at install time.
+// layout_dir and theme_dir are commented out — zellij defaults to CONFIG_DIR/layouts and CONFIG_DIR/themes.
 
 keybinds clear-defaults=true {
     normal {
@@ -226,15 +226,15 @@ default_shell "fish"
 // 
 default_layout "default"
  
-// The folder in which Zellij will look for layouts
-// (Requires restart)
-// 
-layout_dir "~/.config/zellij/layouts"
+ // The folder in which Zellij will look for layouts
+ // (Requires restart)
+ // Default: CONFIG_DIR/layouts
+ // layout_dir "/path/to/layouts"
  
-// The folder in which Zellij will look for themes
-// (Requires restart)
-// Default: CONFIG_DIR/themes  (~/.config/zellij/themes)
-theme_dir "~/.config/zellij/themes"
+ // The folder in which Zellij will look for themes
+ // (Requires restart)
+ // Default: CONFIG_DIR/themes  (~/.config/zellij/themes)
+ // theme_dir "/path/to/themes"
  
 // Toggle enabling the mouse mode.
 // On certain configurations, or terminals this could
