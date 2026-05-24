@@ -1,4 +1,4 @@
-module(name = "dotmeow", version = "0.1.0")
+module(name = "dotmeow", version = "0.1.0", compat = 1)
 dep(name = "stdlib", version = "0.1.14")
 dep(name = "adaptive-keyboard-layouts", version = "0.1.1")
 dep(name = "zjstatus-widgets", version = "0.1.3")

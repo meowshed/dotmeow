@@ -1,0 +1,502 @@
+schema_version = 1
+
+[last_run]
+  phase_set = "install"
+  started_at = 2026-05-22T14:45:57.448053Z
+  completed = false
+  rolled_back = ""
+
+[[completed_components]]
+  phase = "install_check"
+  component = "brew"
+  completed_at = 2026-05-22T14:45:57.47162Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "bash"
+  completed_at = 2026-05-22T14:45:57.473647Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "curl"
+  completed_at = 2026-05-22T14:45:57.475332Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "wget"
+  completed_at = 2026-05-22T14:45:57.476791Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "gpg"
+  completed_at = 2026-05-22T14:45:57.478234Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "openssl"
+  completed_at = 2026-05-22T14:45:57.479926Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "flatpak"
+  completed_at = 2026-05-22T14:45:57.481746Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "git-config"
+  completed_at = 2026-05-22T14:45:57.483351Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "imagemagick"
+  completed_at = 2026-05-22T14:45:57.485275Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "ffmpeg"
+  completed_at = 2026-05-22T14:45:57.487618Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "ncdu"
+  completed_at = 2026-05-22T14:45:57.489822Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "mise"
+  completed_at = 2026-05-22T14:45:57.492038Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "fish"
+  completed_at = 2026-05-22T14:45:57.493998Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "openssh"
+  completed_at = 2026-05-22T14:45:57.496025Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "fonts"
+  completed_at = 2026-05-22T14:45:57.498109Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "keka"
+  completed_at = 2026-05-22T14:45:57.500209Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "maccy"
+  completed_at = 2026-05-22T14:45:57.502371Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "caffeine"
+  completed_at = 2026-05-22T14:45:57.504534Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "mole"
+  completed_at = 2026-05-22T14:45:57.506496Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "mas"
+  completed_at = 2026-05-22T14:45:57.508758Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "hammerspoon"
+  completed_at = 2026-05-22T14:45:57.510981Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "displayplacer"
+  completed_at = 2026-05-22T14:45:57.513245Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "vhs"
+  completed_at = 2026-05-22T14:45:57.515571Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "typora"
+  completed_at = 2026-05-22T14:45:57.517558Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "vscode"
+  completed_at = 2026-05-22T14:45:57.519605Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "drawio"
+  completed_at = 2026-05-22T14:45:57.521703Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "ghostty"
+  completed_at = 2026-05-22T14:45:57.524154Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "obsidian"
+  completed_at = 2026-05-22T14:45:57.526396Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "starship"
+  completed_at = 2026-05-22T14:45:57.528596Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "zoxide"
+  completed_at = 2026-05-22T14:45:57.530678Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "atuin"
+  completed_at = 2026-05-22T14:45:57.532618Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "age"
+  completed_at = 2026-05-22T14:45:57.534494Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "mkcert"
+  completed_at = 2026-05-22T14:45:57.536573Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "fzf"
+  completed_at = 2026-05-22T14:45:57.538657Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "ripgrep"
+  completed_at = 2026-05-22T14:45:57.54097Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "fd"
+  completed_at = 2026-05-22T14:45:57.543615Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "bat"
+  completed_at = 2026-05-22T14:45:57.54586Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "rust"
+  completed_at = 2026-05-22T14:45:57.548038Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "glow"
+  completed_at = 2026-05-22T14:45:57.55002Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "dust"
+  completed_at = 2026-05-22T14:45:57.55207Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "duf"
+  completed_at = 2026-05-22T14:45:57.554262Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "btop"
+  completed_at = 2026-05-22T14:45:57.556352Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "jq"
+  completed_at = 2026-05-22T14:45:57.558392Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "yq"
+  completed_at = 2026-05-22T14:45:57.56041Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "dasel"
+  completed_at = 2026-05-22T14:45:57.563021Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "miller"
+  completed_at = 2026-05-22T14:45:57.565392Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "sd"
+  completed_at = 2026-05-22T14:45:57.567297Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "gum"
+  completed_at = 2026-05-22T14:45:57.569313Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "direnv"
+  completed_at = 2026-05-22T14:45:57.571339Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "tealdeer"
+  completed_at = 2026-05-22T14:45:57.573631Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "navi"
+  completed_at = 2026-05-22T14:45:57.575788Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "watchexec"
+  completed_at = 2026-05-22T14:45:57.578026Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "zellij"
+  completed_at = 2026-05-22T14:45:57.580226Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "neovim"
+  completed_at = 2026-05-22T14:45:57.582496Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "lazygit"
+  completed_at = 2026-05-22T14:45:57.584626Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "delta"
+  completed_at = 2026-05-22T14:45:57.586582Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "gh"
+  completed_at = 2026-05-22T14:45:57.58875Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "git_lfs"
+  completed_at = 2026-05-22T14:45:57.590902Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "act"
+  completed_at = 2026-05-22T14:45:57.593131Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "docker_cli"
+  completed_at = 2026-05-22T14:45:57.595528Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "worktrunk"
+  completed_at = 2026-05-22T14:45:57.598055Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "hyperfine"
+  completed_at = 2026-05-22T14:45:57.600703Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "tokei"
+  completed_at = 2026-05-22T14:45:57.60294Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "procs"
+  completed_at = 2026-05-22T14:45:57.605128Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "xh"
+  completed_at = 2026-05-22T14:45:57.607436Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "pandoc"
+  completed_at = 2026-05-22T14:45:57.60964Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "fish_bass"
+  completed_at = 2026-05-22T14:45:57.611858Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "fish_fzf"
+  completed_at = 2026-05-22T14:45:57.613899Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "fish_autopair"
+  completed_at = 2026-05-22T14:45:57.616195Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "fish_sponge"
+  completed_at = 2026-05-22T14:45:57.618766Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "fish-config"
+  completed_at = 2026-05-22T14:45:57.621132Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "ssh-config"
+  completed_at = 2026-05-22T14:45:57.623749Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "keynote"
+  completed_at = 2026-05-22T14:45:57.626095Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "numbers"
+  completed_at = 2026-05-22T14:45:57.628205Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "pages"
+  completed_at = 2026-05-22T14:45:57.63058Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "adaptive-keyboard-layouts"
+  completed_at = 2026-05-22T14:45:57.633289Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "zjstatus-widgets"
+  completed_at = 2026-05-22T14:45:57.635647Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "meowvim-keyboard-layouts"
+  completed_at = 2026-05-22T14:45:57.638225Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "starship-config"
+  completed_at = 2026-05-22T14:45:57.640739Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "atuin-config"
+  completed_at = 2026-05-22T14:45:57.643366Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "forgit"
+  completed_at = 2026-05-22T14:45:57.646142Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "eza"
+  completed_at = 2026-05-22T14:45:57.648397Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "zellij-config"
+  completed_at = 2026-05-22T14:45:57.65073Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "meowvim"
+  completed_at = 2026-05-22T14:45:57.653001Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "gh-config"
+  completed_at = 2026-05-22T14:45:57.65524Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "modern-macos"
+  completed_at = 2026-05-22T14:45:57.657431Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "hammerspoon-config"
+  completed_at = 2026-05-22T14:45:57.660087Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "git"
+  completed_at = 2026-05-22T14:45:57.66222Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "modern-shell"
+  completed_at = 2026-05-22T14:45:57.6644Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "ghostty-config"
+  completed_at = 2026-05-22T14:45:57.667438Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "glow-config"
+  completed_at = 2026-05-22T14:45:57.670307Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "btop-config"
+  completed_at = 2026-05-22T14:45:57.672657Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "github"
+  completed_at = 2026-05-22T14:45:57.675006Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "bat-config"
+  completed_at = 2026-05-22T14:45:57.677379Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "eza-config"
+  completed_at = 2026-05-22T14:45:57.68016Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "ripgrep-config"
+  completed_at = 2026-05-22T14:45:57.683154Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "tealdeer-config"
+  completed_at = 2026-05-22T14:45:57.685593Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "fzf-config"
+  completed_at = 2026-05-22T14:45:57.687913Z
+
+[[completed_components]]
+  phase = "install_check"
+  component = "lazygit-config"
+  completed_at = 2026-05-22T14:45:57.690264Z

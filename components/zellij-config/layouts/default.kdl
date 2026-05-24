@@ -26,8 +26,8 @@
 // @license: MIT
 //
 // Prerequisites:
-//   Download zjstatus.wasm from https://github.com/dj95/zjstatus/releases
-//   and place it at ~/.config/zellij/plugins/zjstatus.wasm
+//   zjstatus is loaded directly from GitHub releases — no manual download needed.
+//   Zellij caches the wasm after first load.
 //
 //   The zjstatus-widgets Hammerspoon plugin must be installed and Hammerspoon
 //   must be running.  It pushes all widget values (keyboard, VPN, battery,
