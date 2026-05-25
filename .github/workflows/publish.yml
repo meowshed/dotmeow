@@ -24,7 +24,7 @@ jobs:
           tar -czf "dotmeow-${{ steps.version.outputs.version }}.tar.gz" \
             --exclude='.git' \
             --exclude='.github' \
-            MODULE.meow dotmeow.star components/
+            MODULE.meow init.star components/
 
       - name: Compute SRI hash
         id: sri
