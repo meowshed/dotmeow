@@ -4,11 +4,13 @@
 # Inline search style — results appear below the prompt.
 
 # Search
-style = "auto"
+style = "inline"
 inline_height = 40
 show_preview = true
 search_mode = "fuzzy"
 filter_mode_shell_up_key_binding = "session"
+enter_accept = false
+update_check = false
 
 # History
 db_path = "~/.local/share/atuin/history.db"

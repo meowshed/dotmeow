@@ -4,6 +4,9 @@
 # after:    ["@stdlib//components/atuin"]
 #
 # Links atuin config into ~/.config/atuin/config.toml.
+# Emits `atuin init fish | source` via shell hook so Atuin
+# history search (Ctrl+R, up-arrow) is initialized through
+# meowctl shell integration.
 # Catppuccin Mocha theme, inline mode, sync disabled.
 
 after = ["@stdlib//components/atuin"]
@@ -17,4 +20,12 @@ def upgrade(ctx):
     install(ctx)
 
 def uninstall(ctx):
-    ctx.unlink_file(ctx.home + "/.config/atuin/config.toml")
+    ctx.remove_symlink(ctx.home + "/.config/atuin/config.toml")
+
+def shell(ctx):
+    if ctx.shell == "fish":
+        ctx.emit("atuin init fish | source")
+    elif ctx.shell == "bash":
+        ctx.emit('eval "$(atuin init bash)"')
+    elif ctx.shell == "zsh":
+        ctx.emit('eval "$(atuin init zsh)"')

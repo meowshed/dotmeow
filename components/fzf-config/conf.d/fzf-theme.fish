@@ -2,7 +2,7 @@
 # fzf — Catppuccin Mocha theme + UX defaults
 #
 # FZF_DEFAULT_OPTS sets colors and layout flags applied to every fzf call.
-# Per-binding opts (FZF_CTRL_T_OPTS, FZF_ALT_C_OPTS, FZF_CTRL_R_OPTS)
+# Per-binding opts (FZF_CTRL_T_OPTS, FZF_ALT_C_OPTS)
 # layer additional behavior on top without polluting the global opts.
 #
 # Best practices followed:
@@ -10,7 +10,9 @@
 #   - No --ansi in FZF_DEFAULT_OPTS (slows initial scan)
 #   - bat used for file preview in CTRL-T (requires bat in PATH)
 #   - tree used for directory preview in ALT-C (requires eza/tree)
-#   - CTRL-Y copies selected history entry to clipboard via pbcopy
+#
+# Note: fzf completion and key bindings are initialized via the shell hook
+# emitted by fzf-config/init.star (`fzf --fish | source`), not here.
 
 if command -q fzf
     set -gx FZF_DEFAULT_OPTS "\
@@ -51,10 +53,4 @@ if command -q fzf
 --walker-skip .git,node_modules,target,.cache \
 --preview 'tree -C {} | head -100'"
     end
-
-    # CTRL-R: history search; CTRL-Y copies to clipboard (macOS)
-    set -gx FZF_CTRL_R_OPTS "\
---bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort' \
---color header:italic \
---header 'CTRL-Y: copy to clipboard'"
 end
