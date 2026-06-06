@@ -4,7 +4,6 @@
 # Inline search style — results appear below the prompt.
 
 # Search
-style = "inline"
 inline_height = 40
 show_preview = true
 search_mode = "fuzzy"

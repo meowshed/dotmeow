@@ -41,13 +41,13 @@ local function startSpoon(name)
     if type(mod.start) == "function" then
         mod:start()
     elseif type(mod.init) == "function" then
-        mod.init()
+        mod:init()
     else
         hs.printf("Spoon %s has neither start() nor init()", name)
     end
 end
 
--- Adaptive keyboard layouts
+-- Adaptive keyboard layouts (ISO ↔ ANSI RussianWin switching)
 startSpoon("AdaptiveKeyboardLayouts")
 
 -- ZJStatus widgets (zellij status bar integration)

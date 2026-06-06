@@ -32,6 +32,8 @@ after = [
     "@stdlib//components/pandoc",
     "@stdlib//components/ncdu",
     "@stdlib//components/drawio",
+    "@stdlib//components/karabiner_elements",
+    "@stdlib//components/tree_sitter",
 
     # --- custom config components ---
     "fish-config",
@@ -52,4 +54,6 @@ after = [
     "tealdeer-config",
     "fzf-config",
     "hammerspoon-config",
+    "karabiner-config",
+    "macos-defaults",
 ]

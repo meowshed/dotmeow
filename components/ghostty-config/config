@@ -87,10 +87,15 @@ keybind = cmd+minus=decrease_font_size:1
 keybind = cmd+0=reset_font_size
 keybind = cmd+c=copy_to_clipboard
 keybind = cmd+v=paste_from_clipboard
-keybind = cmd+f=toggle_quick_terminal
+# ============================================================================
+# RENDERING
+# ============================================================================
+adjust-underline-thickness = 1
+adjust-underline-position = 2
+adjust-cursor-thickness = 2
+window-colorspace = srgb
 
 # ============================================================================
 # THEME
 # ============================================================================
-# Theme file must exist in ~/.config/ghostty/themes/.
 theme = catppuccin-mocha

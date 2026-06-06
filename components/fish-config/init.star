@@ -30,6 +30,7 @@ def install(ctx):
 
     # conf.d snippets (numbered load order)
     ctx.link_file("conf.d/00-environment.fish", fish + "/conf.d/00-environment.fish")
+    ctx.link_file("conf.d/05-ulimit.fish",      fish + "/conf.d/05-ulimit.fish")
     ctx.link_file("conf.d/10-vi-mode.fish",     fish + "/conf.d/10-vi-mode.fish")
     ctx.link_file("conf.d/20-tools.fish",      fish + "/conf.d/20-tools.fish")
     ctx.link_file("conf.d/30-aliases.fish",    fish + "/conf.d/30-aliases.fish")
@@ -61,6 +62,7 @@ def uninstall(ctx):
     fish = ctx.home + "/.config/fish"
     ctx.remove_symlink(fish + "/config.fish")
     ctx.remove_symlink(fish + "/conf.d/00-environment.fish")
+    ctx.remove_symlink(fish + "/conf.d/05-ulimit.fish")
     ctx.remove_symlink(fish + "/conf.d/10-vi-mode.fish")
     ctx.remove_symlink(fish + "/conf.d/20-tools.fish")
     ctx.remove_symlink(fish + "/conf.d/30-aliases.fish")
