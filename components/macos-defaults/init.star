@@ -98,9 +98,13 @@ def install(ctx):
     r = ctx.run("uname", ["-m"])
     arch = r.stdout.strip()
     if arch == "arm64":
-        ctx.log("Installing Rosetta 2 for x86_64 compatibility...")
-        ctx.run("sudo", ["softwareupdate", "--install-rosetta",
-                 "--agree-to-license"])
+        r = ctx.run("pkgutil", ["--pkg-info", "com.apple.pkg.RosettaUpdateAuto"])
+        if r.exit_code != 0:
+            ctx.log("Installing Rosetta 2 for x86_64 compatibility...")
+            ctx.run("sudo", ["softwareupdate", "--install-rosetta",
+                     "--agree-to-license"])
+        else:
+            ctx.log("Rosetta 2 already installed")
 
     # --- system dialogs ---
     ctx.log("Tuning system dialogs and security prompts...")
