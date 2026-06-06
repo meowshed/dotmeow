@@ -1,4 +1,4 @@
-module(name = "dotmeow", version = "0.2.8", compat = 2)
+module(name = "dotmeow", version = "0.2.9", compat = 2)
 dep(name = "stdlib", version = "0.2.4")
 dep(name = "zjstatus-widgets", version = "0.2.2")
 dep(name = "meowvim-keyboard-layouts", version = "0.2.2")
