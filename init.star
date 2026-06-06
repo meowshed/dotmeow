@@ -34,6 +34,7 @@ after = [
     "@stdlib//components/drawio",
     "@stdlib//components/karabiner_elements",
     "@stdlib//components/tree_sitter",
+    "@stdlib//components/copilot_language_server",
 
     # --- custom config components ---
     "fish-config",
