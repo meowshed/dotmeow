@@ -1,7 +1,7 @@
 # ~/.config/fish/conf.d/zz-fzf-bindings.fish
 # Runs last (zz- prefix) so it overrides fzf defaults after fzf is sourced.
-# Ctrl+G is reserved for Zellij, so fzf history lives on Ctrl+R and optional
-# fzf.fish git log moves to Alt+G.
+# Ctrl+R stays on simple fzf/Fish history; optional fzf.fish git log lives on
+# Alt+G to avoid editor and multiplexer leader chords.
 
 if status is-interactive
     if functions -q fzf_configure_bindings

@@ -1,0 +1,13 @@
+layout {
+    pane split_direction="vertical" {
+        pane size="60%" split_direction="horizontal" {
+            pane command="nvim" size="70%" focus=true
+            pane command="fish" size="30%" {
+                name "fish"
+            }
+        }
+        pane command="opencode" size="40%" {
+            name "opencode"
+        }
+    }
+}
