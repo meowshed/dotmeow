@@ -4,7 +4,7 @@
 #
 # @file: components/zellij/config/fish/conf.d/zellij-tab-name.fish
 # @brief: Auto-rename zellij tabs based on current directory and running command.
-#         Format: "dirname" at shell prompt, "dirname:cmd" while command runs.
+#         Format: "dirname" at shell prompt, "dirname | cmd" while command runs.
 #         Auto-naming is suppressed when the tab has a pinned (user-defined) name.
 #
 #         Also sets the terminal window/tab title via fish_title so that the
@@ -13,7 +13,7 @@
 # @author: Andrew Vasilyev
 # @license: MIT
 #
-# Pin detection:
+# Pin detection
 #   On every fish_prompt we query `zellij action current-tab-info --json` to
 #   get the current tab name.  If the name doesn't match what we last set,
 #   the user renamed it manually — we pin automatically and stop overwriting.
@@ -50,7 +50,7 @@ end
 function fish_title
     set -l dir (__title_dir)
     if set -q argv[1]
-        echo "$dir: $argv[1]"
+        echo "$dir | $argv[1]"
     else
         echo $dir
     end
@@ -60,7 +60,7 @@ end
 function fish_tab_title
     set -l dir (__title_dir)
     if set -q argv[1]
-        echo "$dir: $argv[1]"
+        echo "$dir | $argv[1]"
     else
         echo $dir
     end
@@ -77,9 +77,14 @@ if status is-interactive
     # ZELLIJ_TAB_PINNED — non-empty means auto-naming is suppressed
 
     # Returns the git-aware short name suitable for the tab title.
-    # Inside a git repo: repo root basename.  Otherwise: prompt_pwd.
+    # Inside a git repo: repo root basename.  Otherwise: cwd basename.
     function __zellij_tab_dir
-        __title_dir
+        set -l root (command git rev-parse --show-toplevel 2>/dev/null)
+        if test -n "$root"
+            basename "$root"
+        else
+            basename "$PWD"
+        end
     end
 
     # Resolve and cache the tab ID for this pane.
@@ -97,13 +102,23 @@ if status is-interactive
     # Rename our tab by its stable ID (not by focus).
     function __zellij_tab_rename
         set -l id (__zellij_tab_id)
-        set -l name $argv[1]
-        if test -n "$id"
-            zellij action rename-tab --tab-id $id $name 2>/dev/null
-        else
-            zellij action rename-tab $name 2>/dev/null
+        set -l name (string join ' ' -- $argv)
+        test -n "$name"; or return
+        if set -q _zellij_tab_name
+            and test "$name" = "$_zellij_tab_name"
+            return
         end
-        set -g _zellij_tab_name $name
+        set -l rename_status 1
+        if test -n "$id"
+            zellij action rename-tab --tab-id "$id" "$name" 2>/dev/null
+            set rename_status $status
+        else
+            zellij action rename-tab "$name" 2>/dev/null
+            set rename_status $status
+        end
+        if test $rename_status -eq 0
+            set -g _zellij_tab_name $name
+        end
     end
 
     # Query the current tab name from zellij.
@@ -126,22 +141,68 @@ if status is-interactive
         end
     end
 
-    # Before a command executes: show "dir:cmd" (unless pinned).
+    function __zellij_command_name
+        set -l line (string trim -- $argv[1])
+        test -n "$line"; or return
+
+        # Keep the tab useful for compound commands without trying to be a full shell parser.
+        set -l first (string split -m1 -- '|' $line)[1]
+        set first (string split -m1 -- ';' $first)[1]
+        set first (string trim -- $first)
+
+        set -l parts (string split ' ' -- $first | string match -rv '^\s*$')
+        while test (count $parts) -gt 0
+            set -l head (string trim -c "\"'" -- $parts[1])
+
+            if string match -rq '^[A-Za-z_][A-Za-z0-9_]*=' -- $head
+                set -e parts[1]
+                continue
+            end
+
+            switch $head
+                case command builtin exec nohup time
+                    set -e parts[1]
+                    continue
+                case sudo
+                    set -e parts[1]
+                    while test (count $parts) -gt 0
+                        set -l opt (string trim -c "\"'" -- $parts[1])
+                        string match -rq '^-' -- $opt; or break
+                        set -e parts[1]
+                    end
+                    continue
+                case env
+                    set -e parts[1]
+                    while test (count $parts) -gt 0
+                        set -l env_part (string trim -c "\"'" -- $parts[1])
+                        if string match -rq '^-' -- $env_part
+                            set -e parts[1]
+                            continue
+                        end
+                        if string match -rq '^[A-Za-z_][A-Za-z0-9_]*=' -- $env_part
+                            set -e parts[1]
+                            continue
+                        end
+                        break
+                    end
+                    continue
+            end
+
+            break
+        end
+
+        test (count $parts) -gt 0; or return
+        basename (string trim -c "\"'" -- $parts[1])
+    end
+
+    # Before a command executes: show "dir | cmd" (unless pinned).
     function __zellij_preexec --on-event fish_preexec
+        __zellij_check_pin
         test -n "$ZELLIJ_TAB_PINNED"; and return
         set -l dir (__zellij_tab_dir)
-        # Strip leading env assignments (VAR=val cmd → cmd) and get basename.
-        set -l cmd (string replace -r '^(\w+=\S+\s+)+' '' -- $argv[1])
-        set -l cmd (string split ' ' -- $cmd)[1]
-        # Handle `sudo cmd`, `env cmd`, `command cmd` wrappers.
-        if contains -- $cmd sudo env command builtin
-            set -l parts (string split ' ' -- $argv[1])
-            if test (count $parts) -gt 1
-                set cmd $parts[2]
-            end
-        end
-        set cmd (basename $cmd)
-        __zellij_tab_rename "$dir:$cmd"
+        set -l cmd (__zellij_command_name $argv[1])
+        test -n "$cmd"; or return
+        __zellij_tab_rename "$dir | $cmd"
     end
 
     # After a command finishes / at prompt: show just "dir" (unless pinned).
@@ -175,7 +236,7 @@ if status is-interactive
                 echo "       zt -r       — unpin (restore auto-naming)"
             case '*'
                 set -gx ZELLIJ_TAB_PINNED 1
-                __zellij_tab_rename $argv[1]
+                __zellij_tab_rename $argv
         end
     end
 
