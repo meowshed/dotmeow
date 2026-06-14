@@ -1,6 +1,6 @@
 # ~/.config/fish/conf.d/20-tools.fish
 # Interactive tool initialisation that is NOT emitted by meowctl hook shell.
-# meowctl already handles: mise, starship, zoxide (with --cmd cd), atuin, direnv.
+# meowctl already handles: mise, starship, zoxide (with --cmd cd), direnv.
 
 if status is-interactive
     # -----------------------------------------------------------------------

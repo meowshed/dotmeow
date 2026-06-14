@@ -12,6 +12,7 @@
 #     10-vi-mode.fish        — vi key bindings, cursor shapes
 #     20-tools.fish          — interactive tool extras (fzf, zoxide fallback)
 #     30-aliases.fish        — aliases, abbreviations, function wrappers
+#     40-ai.fish             — Claude/OpenCode/Codex launch helpers
 #     99-local.fish          — machine-specific overrides (stub)
 #   functions/               — autoloaded custom functions
 #   completions/             — custom completions
@@ -34,6 +35,7 @@ def install(ctx):
     ctx.link_file("conf.d/10-vi-mode.fish",     fish + "/conf.d/10-vi-mode.fish")
     ctx.link_file("conf.d/20-tools.fish",      fish + "/conf.d/20-tools.fish")
     ctx.link_file("conf.d/30-aliases.fish",    fish + "/conf.d/30-aliases.fish")
+    ctx.link_file("conf.d/40-ai.fish",         fish + "/conf.d/40-ai.fish")
     ctx.link_file("conf.d/99-local.fish",      fish + "/conf.d/99-local.fish")
     ctx.link_file("conf.d/zz-fzf-bindings.fish", fish + "/conf.d/zz-fzf-bindings.fish")
 
@@ -44,6 +46,7 @@ def install(ctx):
     ctx.link_file("functions/gs.fish",     fish + "/functions/gs.fish")
     ctx.link_file("functions/rgfi.fish",   fish + "/functions/rgfi.fish")
     ctx.link_file("functions/gli.fish",    fish + "/functions/gli.fish")
+    ctx.link_file("functions/clip.fish",   fish + "/functions/clip.fish")
 
     # Completions stub
     ctx.link_file("completions/README.fish", fish + "/completions/README.fish")
@@ -66,6 +69,7 @@ def uninstall(ctx):
     ctx.remove_symlink(fish + "/conf.d/10-vi-mode.fish")
     ctx.remove_symlink(fish + "/conf.d/20-tools.fish")
     ctx.remove_symlink(fish + "/conf.d/30-aliases.fish")
+    ctx.remove_symlink(fish + "/conf.d/40-ai.fish")
     ctx.remove_symlink(fish + "/conf.d/99-local.fish")
     ctx.remove_symlink(fish + "/conf.d/zz-fzf-bindings.fish")
     ctx.remove_symlink(fish + "/conf.d/aliases.fish")  # legacy
@@ -75,5 +79,6 @@ def uninstall(ctx):
     ctx.remove_symlink(fish + "/functions/gs.fish")
     ctx.remove_symlink(fish + "/functions/rgfi.fish")
     ctx.remove_symlink(fish + "/functions/gli.fish")
+    ctx.remove_symlink(fish + "/functions/clip.fish")
     ctx.remove_symlink(fish + "/completions/README.fish")
     ctx.log("fish-config: removed fish configuration")

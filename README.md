@@ -6,7 +6,7 @@ A [meowctl](https://github.com/meowshed/meowctl) registry module that provides a
 
 Dotmeow is a single component (`dotmeow.star`) that declares dependencies on the entire meow stack:
 
-- **Shell:** fish, starship, zoxide, atuin, fzf, zellij
+- **Shell:** fish, starship, zoxide, fzf, zellij
 - **Dev tools:** neovim, vscode, docker, worktrunk, gpg
 - **CLI utilities:** bat, eza, ripgrep, fd, btop, dust, duf, sd, jq, yq, dasel, miller, hyperfine, tokei, procs, xh, pandoc, ncdu, tealdeer, navi, gum, watchexec, direnv
 - **Security:** age, openssl, mkcert, openssh

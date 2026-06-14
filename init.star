@@ -40,7 +40,6 @@ after = [
     "fish-config",
     "git-config",
     "ssh-config",
-    "atuin-config",
     "gh-config",
     "meowvim",
     "zellij-config",

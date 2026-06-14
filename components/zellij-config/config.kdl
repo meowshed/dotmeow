@@ -129,6 +129,7 @@ keybinds clear-defaults=true {
         bind "/" { SwitchToMode "EnterSearch"; SearchInput 0; }
         bind "e" { EditScrollback; SwitchToMode "Normal"; }
         bind "y" { Copy; SwitchToMode "Normal"; }
+        bind "Y" { Copy; SwitchToMode "Normal"; }
     }
 
     search {
