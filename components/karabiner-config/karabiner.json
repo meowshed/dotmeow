@@ -6,7 +6,6 @@
     {
       "name": "Default",
       "selected": true,
-      "simple_modifications": {},
       "complex_modifications": {
         "parameters": {
           "basic.to_if_alone_timeout_milliseconds": 200,
@@ -30,7 +29,8 @@
         ]
       },
       "virtual_hid_keyboard": {
-        "keyboard_type": "ansi",
+        "keyboard_type": "iso",
+        "keyboard_type_v2": "iso",
         "caps_lock_delay_milliseconds": 0
       }
     }
