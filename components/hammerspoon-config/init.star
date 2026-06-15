@@ -3,7 +3,7 @@
 # Links ~/.hammerspoon/init.lua from this repo.
 # Hammerspoon must be installed and granted Accessibility permissions manually.
 
-after = ["@stdlib//components/hammerspoon", "@adaptive-keyboard-layouts", "@zjstatus-widgets", "@meowvim-keyboard-layouts"]
+after = ["@stdlib//components/hammerspoon", "@zjstatus-widgets"]
 
 def install(ctx):
     ctx.mkdir("~/.hammerspoon")

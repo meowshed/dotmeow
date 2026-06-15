@@ -47,13 +47,13 @@ local function startSpoon(name)
     end
 end
 
--- Adaptive keyboard layouts (ISO ↔ ANSI RussianWin switching)
-startSpoon("AdaptiveKeyboardLayouts")
-
 -- ZJStatus widgets (zellij status bar integration)
 startSpoon("ZJStatusWidgets")
 
--- Meowvim keyboard layouts (mode-based layout switching for meowvim/Ghostty)
-startSpoon("MeowvimKeyboardLayouts")
+-- Personal extensions (loaded last; provided by personal dotfiles layer).
+local localPath = hs.configdir .. "/local.lua"
+if hs.fs.attributes(localPath) then
+    dofile(localPath)
+end
 
 hs.notify.new({ title = "Hammerspoon", informativeText = "Config loaded" }):send()
