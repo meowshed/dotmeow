@@ -28,7 +28,7 @@
 
 add_newline = true
 
-command_timeout = 2000
+command_timeout = 500
 scan_timeout = 100
 
 format = """
@@ -55,9 +55,6 @@ $mise\
 $docker_context\
 $container\
 $jobs\
-${custom.memory_usage}\
-${custom.battery}\
-${custom.keyboard_layout}\
 $cmd_duration\
 $status\
 $line_break\
@@ -325,69 +322,6 @@ format = '( [$symbol( $number)]($style) )'
 symbol_threshold = 1
 number_threshold = 1
 
-# ============================================================================
-# COCKPIT FEATURES (Optional System Monitoring)
-# ============================================================================
-# Custom modules for optional system monitoring in the prompt.
-# Disabled by default to avoid duplication with zellij status bar.
-#
-# Enable via environment variables:
-#   export STARSHIP_COCKPIT_MEMORY_USAGE_ENABLED=true
-#   export STARSHIP_COCKPIT_BATTERY_ENABLED=true
-#   export STARSHIP_COCKPIT_BATTERY_THRESHOLD=20
-#   export STARSHIP_COCKPIT_KEYBOARD_LAYOUT_ENABLED=true
-# ============================================================================
-
-[custom.memory_usage]
-command = "starship module memory_usage"
-when = '[ "${STARSHIP_COCKPIT_MEMORY_USAGE_ENABLED:-false}" = "true" ]'
-shell = "sh"
-format = "( $output )"
-disabled = false
-
-[memory_usage]
-threshold = 0
-symbol = "󰓅"
-style = "fg:color_other"
-format = '( [$symbol( ${ram})]($style) )'
-disabled = true
-
-[custom.battery]
-command = """
-battery_info=$(starship module battery)
-if [ -n "$battery_info" ]; then
-    percent=$(echo "$battery_info" | grep -o '[0-9]*%' | sed 's/%//')
-    if [ "$percent" -le "${STARSHIP_COCKPIT_BATTERY_THRESHOLD:-0}" ]; then
-        echo "$battery_info" | sed 's/%%/%/'
-    fi
-fi
-"""
-when = '[ "${STARSHIP_COCKPIT_BATTERY_ENABLED:-false}" = "true" ]'
-shell = "sh"
-format = "( $output )"
-disabled = false
-
-[battery]
-full_symbol = "󰁹"
-charging_symbol = "󰂄"
-discharging_symbol = "󰂃"
-unknown_symbol = "󰂑"
-empty_symbol = "󰂎"
-format = '( [$symbol( $percentage)]($style) )'
-disabled = true
-
-[[battery.display]]
-threshold = 10
-style = "bold fg:color_danger"
-
-[[battery.display]]
-threshold = 20
-style = "fg:color_caution"
-
-[[battery.display]]
-threshold = 100
-style = "fg:color_other"
-
 [time]
 disabled = true
 time_format = "%R"
@@ -427,22 +361,3 @@ vimcmd_replace_one_symbol = '[❮](bold fg:color_vimcmd_replace)'
 vimcmd_replace_symbol = '[❮](bold fg:color_vimcmd_replace)'
 vimcmd_visual_symbol = '[❮](bold fg:color_vimcmd_visual)'
 
-[custom.keyboard_layout]
-command = """
-# Set env variables for layout aliases (in uppercase):
-#   export STARSHIP_COCKPIT_KEYBOARD_LAYOUT_ABC=ENG
-#   export STARSHIP_COCKPIT_KEYBOARD_LAYOUT_UKRAINIAN=UKR
-
-if [ "$(uname -s)" = "Darwin" ]; then
-        input_source=$(defaults read ~/Library/Preferences/com.apple.HIToolbox.plist AppleCurrentKeyboardLayoutInputSourceID)
-        layout_id=$(echo "$input_source" | cut -d '.' -f4)
-        layout=$(printenv "STARSHIP_COCKPIT_KEYBOARD_LAYOUT_$(echo "$layout_id" | tr '[:lower:]' '[:upper:]')")
-        echo "$layout" || echo "$layout_id"
-fi
-"""
-symbol = "󰌌"
-style = "fg:color_other"
-format = '( [$symbol $output]($style) )'
-when = '[ "${STARSHIP_COCKPIT_KEYBOARD_LAYOUT_ENABLED:-false}" = "true" ]'
-shell = "sh"
-disabled = false

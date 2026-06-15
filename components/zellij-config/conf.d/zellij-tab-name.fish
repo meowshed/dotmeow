@@ -14,9 +14,10 @@
 # @license: MIT
 #
 # Pin detection
-#   On every fish_prompt we query `zellij action current-tab-info --json` to
-#   get the current tab name.  If the name doesn't match what we last set,
-#   the user renamed it manually — we pin automatically and stop overwriting.
+#   On fish_prompt we periodically query `zellij action current-tab-info --json`
+#   (throttled to once every 5 s) to get the current tab name.  If the name
+#   doesn't match what we last set, the user renamed it manually — we pin
+#   automatically and stop overwriting.
 #
 #   Because we use `rename-tab --tab-id`, multiple panes in the same tab no
 #   longer race: every pane targets the same stable tab ID rather than
@@ -39,9 +40,14 @@
 
 function __title_dir
     # If inside a git repo, use the repo root basename; otherwise prompt_pwd.
-    set -l root (command git rev-parse --show-toplevel 2>/dev/null)
-    if test -n "$root"
-        echo (basename $root)
+    # Caches git root per-directory to avoid a subprocess on every title refresh.
+    if not set -q _title_git_cache_pwd
+        or test "$_title_git_cache_pwd" != "$PWD"
+        set -g _title_git_cache_pwd $PWD
+        set -g _title_git_cache_root (command git rev-parse --show-toplevel 2>/dev/null)
+    end
+    if test -n "$_title_git_cache_root"
+        echo (basename $_title_git_cache_root)
     else
         prompt_pwd --full-length-dirs 1
     end
@@ -78,10 +84,15 @@ if status is-interactive
 
     # Returns the git-aware short name suitable for the tab title.
     # Inside a git repo: repo root basename.  Otherwise: cwd basename.
+    # Caches the git root per-directory to avoid a git subprocess on every prompt.
     function __zellij_tab_dir
-        set -l root (command git rev-parse --show-toplevel 2>/dev/null)
-        if test -n "$root"
-            basename "$root"
+        if not set -q _zellij_git_cache_pwd
+            or test "$_zellij_git_cache_pwd" != "$PWD"
+            set -g _zellij_git_cache_pwd $PWD
+            set -g _zellij_git_cache_root (command git rev-parse --show-toplevel 2>/dev/null)
+        end
+        if test -n "$_zellij_git_cache_root"
+            basename "$_zellij_git_cache_root"
         else
             basename "$PWD"
         end
@@ -131,10 +142,21 @@ if status is-interactive
 
     # Detect manual rename: if the live tab name differs from what we last set,
     # the user renamed it via the zellij keybind — auto-pin.
+    #
+    # Throttled to once every 5 seconds: querying zellij on every prompt
+    # spawns one process per pane, which compounds to tens of processes under
+    # normal multi-pane use and causes measurable CPU load.
     function __zellij_check_pin
         test -n "$ZELLIJ_TAB_PINNED"; and return
         # If we've never set a name yet, nothing to compare against.
         set -q _zellij_tab_name; or return
+        # Rate-limit the IPC call to at most once every 5 seconds.
+        set -l now (date +%s)
+        if set -q _zellij_pin_check_last
+            and test (math $now - $_zellij_pin_check_last) -lt 5
+            return
+        end
+        set -g _zellij_pin_check_last $now
         set -l live (__zellij_tab_current_name)
         if test -n "$live" -a "$live" != "$_zellij_tab_name"
             set -gx ZELLIJ_TAB_PINNED 1

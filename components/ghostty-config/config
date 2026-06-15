@@ -42,7 +42,7 @@ cursor-style-blink = false
 # SHELL
 # ============================================================================
 shell-integration = fish
-shell-integration-features = cursor,sudo,title,ssh-env,ssh-terminfo
+shell-integration-features = cursor,sudo,ssh-env,ssh-terminfo
 
 # ============================================================================
 # CLIPBOARD
@@ -65,7 +65,7 @@ mouse-scroll-multiplier = 1.0
 # ============================================================================
 # PERFORMANCE
 # ============================================================================
-scrollback-limit = 50000
+scrollback-limit = 500
 
 # ============================================================================
 # TERMINAL
