@@ -25,7 +25,7 @@ end
 local configWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig)
 configWatcher:start()
 
-local function startSpoon(name)
+function startSpoon(name)
     local ok, loadErr = pcall(hs.loadSpoon, name)
     if not ok then
         hs.printf("Failed to load Spoon %s: %s", name, tostring(loadErr))

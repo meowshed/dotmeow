@@ -5,6 +5,7 @@
     excludesFile = ~/.config/git/ignore
     fsmonitor = true
     untrackedCache = true
+    preloadindex = true
 
 [delta]
     navigate = true
@@ -87,6 +88,7 @@
 
 [status]
     showUntrackedFiles = all
+    aheadbehind = false
 
 [help]
     autocorrect = prompt

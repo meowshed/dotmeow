@@ -28,7 +28,7 @@
 
 add_newline = true
 
-command_timeout = 500
+command_timeout = 1000
 scan_timeout = 100
 
 format = """
@@ -38,8 +38,6 @@ $username\
 $directory\
 $git_branch\
 $git_commit\
-$git_status\
-$git_metrics\
 $git_state\
 $c\
 $rust\
@@ -180,28 +178,10 @@ tag_disabled = false
 disabled = false
 
 [git_status]
-style = "fg:color_git"
-format = '([$all_status$ahead_behind]($style) )'
-stashed = "*"
-ahead = "⇡"
-behind = "⇣"
-up_to_date = ""
-diverged = "⇡⇣"
-conflicted = ""
-deleted = ""
-renamed = ""
-modified = ""
-staged = ""
-untracked = ""
-ignore_submodules = false
-disabled = false
+disabled = true
 
 [git_metrics]
-format = '([([+$added]($added_style))([-$deleted]($deleted_style))](fg:color_git) )'
-added_style = "fg:color_git_added"
-deleted_style = "fg:color_git_deleted"
-only_nonzero_diffs = true
-disabled = false
+disabled = true
 
 [git_state]
 style = "fg:color_danger"
