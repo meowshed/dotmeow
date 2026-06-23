@@ -9,6 +9,12 @@
 # Generates ~/.config/tmux/local.conf with the fish shell path at install time
 # so tmux.conf does not need to hardcode /opt/homebrew/bin/fish.
 #
+# Installs a launchd user agent (me.retran.tmux-event-refresh) that watches:
+#   - ~/Library/Preferences/com.apple.HIToolbox.plist  (keyboard layout)
+#   - ~/Library/DoNotDisturb/DB/Assertions.json         (focus mode)
+#   - /Library/Preferences/SystemConfiguration          (VPN / network changes)
+# On any change it runs tmux-event-push.sh which updates tmux options instantly.
+#
 # TPM bootstrap (one-time, run after first meowctl apply):
 #   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 #   Then launch tmux and press prefix + I
@@ -25,10 +31,19 @@ _SCRIPTS = [
     "tmux-battery.sh",
     "tmux-date.sh",
     "tmux-time.sh",
+    "tmux-keyboard-push.sh",
+    "tmux-focus-push.sh",
+    "tmux-vpn-push.sh",
+    "tmux-event-push.sh",
 ]
+
+_PLIST_LABEL = "me.retran.tmux-event-refresh"
 
 def _tmux_scripts(ctx):
     return ctx.home + "/.config/tmux/scripts"
+
+def _plist_path(ctx):
+    return ctx.home + "/Library/LaunchAgents/" + _PLIST_LABEL + ".plist"
 
 def _write_local_conf(ctx):
     r = ctx.run("which", ["fish"])
@@ -39,6 +54,52 @@ def _write_local_conf(ctx):
         ctx.log("tmux-config: wrote local.conf with default-shell=" + fish_path)
     else:
         ctx.log("tmux-config: fish not found — local.conf not written; tmux will use default shell")
+
+def _install_event_agent(ctx):
+    push_script = ctx.home + "/.config/tmux/scripts/tmux-event-push.sh"
+    plist = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"'
+        ' "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n'
+        '<plist version="1.0">\n'
+        '<dict>\n'
+        '    <key>Label</key>\n'
+        '    <string>' + _PLIST_LABEL + '</string>\n'
+        '    <key>WatchPaths</key>\n'
+        '    <array>\n'
+        '        <string>' + ctx.home + '/Library/Preferences/com.apple.HIToolbox.plist</string>\n'
+        '        <string>' + ctx.home + '/Library/DoNotDisturb/DB/Assertions.json</string>\n'
+        '        <string>/Library/Preferences/SystemConfiguration</string>\n'
+        '    </array>\n'
+        '    <key>ProgramArguments</key>\n'
+        '    <array>\n'
+        '        <string>/bin/bash</string>\n'
+        '        <string>' + push_script + '</string>\n'
+        '    </array>\n'
+        '    <key>RunAtLoad</key>\n'
+        '    <false/>\n'
+        '</dict>\n'
+        '</plist>\n'
+    )
+    ctx.mkdir(ctx.home + "/Library/LaunchAgents")
+    pp = _plist_path(ctx)
+    ctx.write_file(pp, plist)
+    uid = ctx.run("id", ["-u"]).stdout.strip()
+    ctx.run("sh", ["-c",
+        "launchctl bootout gui/" + uid + " " + pp + " 2>/dev/null || true; " +
+        "launchctl bootstrap gui/" + uid + " " + pp,
+    ])
+    ctx.log("tmux-config: loaded launchd event agent " + _PLIST_LABEL)
+
+def _remove_event_agent(ctx):
+    pp = _plist_path(ctx)
+    if ctx.file_exists(pp):
+        uid = ctx.run("id", ["-u"]).stdout.strip()
+        ctx.run("sh", ["-c",
+            "launchctl bootout gui/" + uid + " " + pp + " 2>/dev/null || true",
+        ])
+        ctx.run("rm", ["-f", pp])
+        ctx.log("tmux-config: removed launchd event agent " + _PLIST_LABEL)
 
 def install(ctx):
     tpm_path = ctx.home + "/.tmux/plugins/tpm"
@@ -59,6 +120,7 @@ def install(ctx):
         ctx.link_file("scripts/" + script, scripts + "/" + script)
 
     _write_local_conf(ctx)
+    _install_event_agent(ctx)
     ctx.log("tmux-config: linked tmux configuration")
 
 def upgrade(ctx):
@@ -79,16 +141,19 @@ def verify(ctx):
         if not ctx.file_exists(p):
             ctx.log("tmux-config: MISSING " + p)
             ok = False
+    if not ctx.file_exists(_plist_path(ctx)):
+        ctx.log("tmux-config: MISSING launchd agent " + _PLIST_LABEL)
+        ok = False
     if ok:
         ctx.log("tmux-config: OK")
 
 def uninstall(ctx):
+    _remove_event_agent(ctx)
     ctx.remove_symlink(ctx.home + "/.tmux.conf")
     ctx.remove_symlink(ctx.home + "/.config/fish/conf.d/tmux-autostart.fish")
     scripts = _tmux_scripts(ctx)
     for script in _SCRIPTS:
         ctx.remove_symlink(scripts + "/" + script)
-    # Best-effort directory cleanup; ignored if directories are non-empty.
     ctx.rmdir(scripts)
     ctx.rmdir(ctx.home + "/.config/tmux")
     ctx.log("tmux-config: removed tmux configuration")
