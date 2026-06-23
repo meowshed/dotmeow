@@ -22,6 +22,7 @@ _SCRIPTS = [
     "tmux-focus.sh",
     "tmux-cpu.sh",
     "tmux-memory.sh",
+    "tmux-battery.sh",
 ]
 
 def _tmux_scripts(ctx):
