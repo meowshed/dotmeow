@@ -1,4 +1,5 @@
 gui:
+  nerdFontsVersion: "3"
   theme:
     activeBorderColor:
       - "#cba6f7"
@@ -22,3 +23,11 @@ gui:
       - "#cdd6f4"
   authorColors:
     '*': "#b4befe"
+os:
+  edit: nvim +{{line}} {{filename}}
+  editInTerminal: true
+  suspendOnEdit: true
+
+git:
+  commit:
+    signOff: false

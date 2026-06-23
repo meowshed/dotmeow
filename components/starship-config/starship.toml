@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-# @file: components/shell-essential/config/starship/starship.toml
+# @file: components/starship-config/starship.toml
 # @brief: Starship prompt configuration
 # @author: Andrew Vasilyev
 # @license: MIT
@@ -149,6 +149,7 @@ style = "fg:color_directory"
 read_only_style = "fg:color_directory"
 repo_root_style = "bold fg:color_directory"
 format = "[ $path ]($style)"
+repo_root_format = "[ $before_root_path]($style)[$repo_root]($repo_root_style)[$path ]($style)"
 read_only = " "
 home_symbol = "~"
 truncation_symbol = " …/"
@@ -257,6 +258,7 @@ version_format = '${major}.${minor}'
 symbol = "󱁤"
 style = "fg:color_env"
 format = '( [$symbol $version]($style) )'
+detect_files = [".mise.toml", "mise.toml"]
 disabled = false
 
 [package]
@@ -317,7 +319,7 @@ disabled = false
 
 [status]
 disabled = false
-format = '( [$symbol( $common_meaning)( $signal_name)]($style) )'
+format = '( [$symbol( $common_meaning)( $signal_name)$pipestatus]($style) )'
 map_symbol = true
 pipestatus = true
 symbol = '󰅙'

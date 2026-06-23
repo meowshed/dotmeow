@@ -30,6 +30,8 @@ Temporary Items
 .project
 .settings/
 .classpath
+Session.vim
+.nvim.lua
 
 # Environment / secrets
 .env
@@ -56,6 +58,9 @@ target/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Tool-generated directories
+.direnv/
 
 # Misc
 Thumbs.db

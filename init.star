@@ -9,6 +9,8 @@
 
 after = [
     # --- stdlib tools ---
+    "@stdlib//components/tmux",
+    "@stdlib//components/sesh",
     "@stdlib//components/brew",
     "@stdlib//components/mise",
     "@stdlib//bundles/modern-shell",
@@ -42,7 +44,7 @@ after = [
     "ssh-config",
     "gh-config",
     "meowvim",
-    "zellij-config",
+    "tmux-config",
     "starship-config",
     "bat-config",
     "ghostty-config",

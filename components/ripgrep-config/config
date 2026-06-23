@@ -21,10 +21,14 @@
 --max-columns=500
 --max-columns-preview
 
-# Catppuccin Mocha colors
---colors=path:fg:166,227,161
+# Custom file types
+--type-add=fish:*.fish
+--type-add=star:*.star
+
+# Catppuccin Mocha colors (hex supported since rg v13)
+--colors=path:fg:#a6e3a1
 --colors=path:style:bold
---colors=line:fg:249,226,175
---colors=match:fg:243,139,168
+--colors=line:fg:#f9e2af
+--colors=match:fg:#f38ba8
 --colors=match:style:bold
---colors=column:fg:148,226,213
+--colors=column:fg:#94e2d5

@@ -34,6 +34,7 @@ if command -q bat
         command bat --plain --language=help $argv
     end
     function help --description 'show command --help via bat'
+        test (count $argv) -gt 0 || return 1
         $argv --help 2>&1 | command bat --plain --language=help
     end
 end
@@ -50,6 +51,9 @@ if command -q eza
     end
     function la --wraps eza --description 'eza -la'
         command eza -la $argv
+    end
+    function lai --wraps eza --description 'eza -la --no-git-ignore'
+        command eza -la --no-git-ignore $argv
     end
     function ll --wraps eza --description 'eza -l --git'
         command eza -l --git $argv

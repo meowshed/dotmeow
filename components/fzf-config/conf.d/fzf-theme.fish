@@ -15,6 +15,11 @@
 # emitted by fzf-config/init.star (`fzf --fish | source`), not here.
 
 if command -q fzf
+    # Use fd as the default file lister: faster, .gitignore-aware, hidden-file-aware.
+    if command -q fd
+        set -gx FZF_DEFAULT_COMMAND "fd --type f --hidden --exclude .git"
+    end
+
     set -gx FZF_DEFAULT_OPTS "\
 --color=bg:#1e1e2e,fg:#cdd6f4 \
 --color=bg+:#313244,fg+:#cdd6f4 \

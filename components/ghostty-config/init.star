@@ -5,6 +5,7 @@
 #
 # Links ghostty config into ~/.config/ghostty/config.
 
+platforms = ["macos"]
 after = ["@stdlib//bundles/modern-macos"]
 
 def install(ctx):

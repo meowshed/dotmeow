@@ -11,6 +11,7 @@
 #     00-environment.fish    — locale, PATH, env vars
 #     10-vi-mode.fish        — vi key bindings, cursor shapes
 #     20-tools.fish          — interactive tool extras (fzf, zoxide fallback)
+#     25-terminal-title.fish — fish_title / fish_tab_title (git-aware CWD)
 #     30-aliases.fish        — aliases, abbreviations, function wrappers
 #     99-local.fish          — machine-specific overrides (stub)
 #   functions/               — autoloaded custom functions
@@ -28,14 +29,15 @@ def install(ctx):
     # Main config
     ctx.link_file("config.fish", fish + "/config.fish")
 
-    # conf.d snippets (numbered load order)
-    ctx.link_file("conf.d/00-environment.fish", fish + "/conf.d/00-environment.fish")
-    ctx.link_file("conf.d/05-ulimit.fish",      fish + "/conf.d/05-ulimit.fish")
-    ctx.link_file("conf.d/10-vi-mode.fish",     fish + "/conf.d/10-vi-mode.fish")
-    ctx.link_file("conf.d/20-tools.fish",      fish + "/conf.d/20-tools.fish")
-    ctx.link_file("conf.d/30-aliases.fish",    fish + "/conf.d/30-aliases.fish")
-    ctx.link_file("conf.d/99-local.fish",      fish + "/conf.d/99-local.fish")
-    ctx.link_file("conf.d/zz-fzf-bindings.fish", fish + "/conf.d/zz-fzf-bindings.fish")
+    # conf.d snippets (in numeric load order)
+    ctx.link_file("conf.d/00-environment.fish",    fish + "/conf.d/00-environment.fish")
+    ctx.link_file("conf.d/05-ulimit.fish",         fish + "/conf.d/05-ulimit.fish")
+    ctx.link_file("conf.d/10-vi-mode.fish",        fish + "/conf.d/10-vi-mode.fish")
+    ctx.link_file("conf.d/20-tools.fish",          fish + "/conf.d/20-tools.fish")
+    ctx.link_file("conf.d/25-terminal-title.fish", fish + "/conf.d/25-terminal-title.fish")
+    ctx.link_file("conf.d/30-aliases.fish",        fish + "/conf.d/30-aliases.fish")
+    ctx.link_file("conf.d/99-local.fish",          fish + "/conf.d/99-local.fish")
+    ctx.link_file("conf.d/zz-fzf-bindings.fish",  fish + "/conf.d/zz-fzf-bindings.fish")
 
     # Autoloaded functions
     ctx.link_file("functions/mkcd.fish",   fish + "/functions/mkcd.fish")
@@ -45,8 +47,6 @@ def install(ctx):
     ctx.link_file("functions/rgfi.fish",   fish + "/functions/rgfi.fish")
     ctx.link_file("functions/gli.fish",    fish + "/functions/gli.fish")
     ctx.link_file("functions/clip.fish",   fish + "/functions/clip.fish")
-    ctx.link_file("functions/zellij_claude_journal.fish", fish + "/functions/zellij_claude_journal.fish")
-    ctx.link_file("functions/zellij_opencode_journal.fish", fish + "/functions/zellij_opencode_journal.fish")
 
     # Completions stub
     ctx.link_file("completions/README.fish", fish + "/completions/README.fish")
@@ -68,6 +68,7 @@ def uninstall(ctx):
     ctx.remove_symlink(fish + "/conf.d/05-ulimit.fish")
     ctx.remove_symlink(fish + "/conf.d/10-vi-mode.fish")
     ctx.remove_symlink(fish + "/conf.d/20-tools.fish")
+    ctx.remove_symlink(fish + "/conf.d/25-terminal-title.fish")
     ctx.remove_symlink(fish + "/conf.d/30-aliases.fish")
     ctx.remove_symlink(fish + "/conf.d/99-local.fish")
     ctx.remove_symlink(fish + "/conf.d/zz-fzf-bindings.fish")
@@ -79,7 +80,5 @@ def uninstall(ctx):
     ctx.remove_symlink(fish + "/functions/rgfi.fish")
     ctx.remove_symlink(fish + "/functions/gli.fish")
     ctx.remove_symlink(fish + "/functions/clip.fish")
-    ctx.remove_symlink(fish + "/functions/zellij_claude_journal.fish")
-    ctx.remove_symlink(fish + "/functions/zellij_opencode_journal.fish")
     ctx.remove_symlink(fish + "/completions/README.fish")
     ctx.log("fish-config: removed fish configuration")

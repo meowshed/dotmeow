@@ -10,7 +10,7 @@ if status is-interactive
             --variables=ctrl-v \
             --directory=ctrl-f \
             --git_log=alt-g \
-            --git_status=ctrl-s \
+            --git_status=ctrl-g \
             --processes=ctrl-p
     else if functions -q fzf-history-widget
         bind \cr fzf-history-widget

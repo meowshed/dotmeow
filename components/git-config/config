@@ -50,20 +50,37 @@
 [merge]
     conflictstyle = zdiff3
     ff = false
+    tool = nvimdiff
+
+[mergetool]
+    keepBackup = false
+
+[mergetool "nvimdiff"]
+    cmd = nvim -d "$LOCAL" "$REMOTE" "$BASE" "$MERGED" -c "wincmd l"
 
 [diff]
     colorMoved = default
     algorithm = histogram
     mnemonicPrefix = true
     renames = copies
+    tool = nvimdiff
+
+[difftool]
+    prompt = false
+
+[difftool "nvimdiff"]
+    cmd = nvim -d "$LOCAL" "$REMOTE"
 
 [fetch]
     prune = true
     prunetags = true
     parallel = 0
 
+[credential]
+    helper = osxkeychain
+
 [pull]
-    rebase = merges
+    rebase = true
 
 [push]
     autoSetupRemote = true

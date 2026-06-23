@@ -8,6 +8,13 @@
 set -gx LC_ALL en_US.UTF-8
 
 # ---------------------------------------------------------------------------
+# XDG base directories — set explicitly so tools use consistent paths
+# ---------------------------------------------------------------------------
+set -gx XDG_CONFIG_HOME $HOME/.config
+set -gx XDG_DATA_HOME   $HOME/.local/share
+set -gx XDG_CACHE_HOME  $HOME/.cache
+
+# ---------------------------------------------------------------------------
 # PATH — user-local binaries first
 # ---------------------------------------------------------------------------
 if test -d $HOME/.local/bin
@@ -17,7 +24,9 @@ end
 # ---------------------------------------------------------------------------
 # Homebrew
 # ---------------------------------------------------------------------------
-set -gx HOMEBREW_NO_ANALYTICS 1
+set -gx HOMEBREW_NO_ANALYTICS  1
+set -gx HOMEBREW_NO_AUTO_UPDATE 1
+set -gx HOMEBREW_NO_ENV_HINTS  1
 
 # Prepend Homebrew bin so brew-installed tools (bash 5, gnu coreutils, etc.)
 # shadow macOS BSD versions. Must come before mise shims on PATH.
@@ -35,11 +44,8 @@ else
     set -gx PAGER less
 end
 
-# ---------------------------------------------------------------------------
-# Editor
-# ---------------------------------------------------------------------------
-set -gx EDITOR nvim
-set -gx VISUAL nvim
+# less flags: ANSI passthrough, quit-if-one-screen, mouse scroll
+set -gx LESS "-RF --mouse"
 
 # ---------------------------------------------------------------------------
 # Disable greeting
@@ -48,6 +54,6 @@ set -g fish_greeting
 
 # ---------------------------------------------------------------------------
 # Shell hooks — activate mise and other tools early so they are on PATH
-# before subsequent conf.d files execute (e.g. zellij-autostart.fish).
+# before subsequent conf.d files execute.
 # ---------------------------------------------------------------------------
 meowctl shell fish | source

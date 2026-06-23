@@ -6,14 +6,14 @@ A [meowctl](https://github.com/meowshed/meowctl) registry module that provides a
 
 Dotmeow is a single component (`dotmeow.star`) that declares dependencies on the entire meow stack:
 
-- **Shell:** fish, starship, zoxide, fzf, zellij
+- **Shell:** fish, starship, zoxide, fzf, tmux
 - **Dev tools:** neovim, vscode, docker, worktrunk, gpg
 - **CLI utilities:** bat, eza, ripgrep, fd, btop, dust, duf, sd, jq, yq, dasel, miller, hyperfine, tokei, procs, xh, pandoc, ncdu, tealdeer, navi, gum, watchexec, direnv
 - **Security:** age, openssl, mkcert, openssh
 - **Media:** imagemagick, ffmpeg, vhs
 - **Productivity:** typora, obsidian, drawio
 - **macOS extras:** ghostty, hammerspoon, displayplacer
-- **Config components:** fish-config, git-config, zellij-config, starship-config, bat-config, and 13 more custom configs
+- **Config components:** fish-config, git-config, tmux-config, starship-config, bat-config, and 16 more custom configs
 
 ## Usage
 
@@ -35,7 +35,7 @@ meowctl apply
 ```
 dotmeow.star    # the single component with all after= dependencies
 components/     # custom config components (fish-config, git-config, etc.)
-MODULE.meow     # module identity + registry deps (stdlib, zjstatus-widgets)
+MODULE.meow     # module identity + registry deps (stdlib)
 ```
 
 ## Dependencies
@@ -43,7 +43,7 @@ MODULE.meow     # module identity + registry deps (stdlib, zjstatus-widgets)
 | Module | Version | Purpose |
 |--------|---------|---------|
 | stdlib | ^0.1.14 | Package managers, bundles, base tools |
-| zjstatus-widgets | ^0.1.4 | Zellij status bar widgets (via Hammerspoon) |
+| sesh | via stdlib | Smart tmux session manager |
 
 ## License
 

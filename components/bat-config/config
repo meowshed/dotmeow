@@ -1,1 +1,5 @@
 --theme="Catppuccin Mocha"
+--style=numbers,changes,header
+--tabs=4
+--italic-text=always
+--map-syntax="*.star:Python"

@@ -1,3 +1,4 @@
+platforms = ["macos"]
 after = ["@stdlib//bundles/modern-macos"]
 
 def install(ctx):
@@ -9,7 +10,9 @@ def install(ctx):
 
     home = ctx.home
 
-    ctx.run("osascript", ["-e", 'tell application "System Preferences" to quit'])
+    # "System Settings" (Ventura+) / "System Preferences" (older macOS)
+    ctx.run("osascript", ["-e",
+             'try\n    tell application "System Settings" to quit\non error\n    try\n        tell application "System Preferences" to quit\n    end try\nend try'])
 
     # --- computer name ---
     name = ctx.prompt("Set a computer name? (leave blank to skip)")
@@ -25,10 +28,16 @@ def install(ctx):
     r = ctx.run("brew", ["--prefix"])
     bp = r.stdout.strip()
     ctx.run("sudo", ["launchctl", "config", "user", "path",
-             bp + "/bin:/usr/local/bin:/usr/bin:/bin"])
+             bp + "/bin:" + bp + "/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin"])
 
     # --- general UI/UX ---
-    ctx.run("sudo", ["nvram", "SystemAudioVolume="])
+    # Mute startup chime. Apple Silicon (arm64) uses StartupMute; Intel uses SystemAudioVolume.
+    r = ctx.run("uname", ["-m"])
+    arch = r.stdout.strip()
+    if arch == "arm64":
+        ctx.run("sudo", ["nvram", "StartupMute=%01"])
+    else:
+        ctx.run("sudo", ["nvram", "SystemAudioVolume="])
     ctx.run("defaults", ["write", "com.apple.finder", "AppleShowAllFiles",
              "-boolean", "true"])
     ctx.run("defaults", ["write", "NSGlobalDomain",
@@ -88,6 +97,9 @@ def install(ctx):
     ctx.run("sudo", ["pmset", "-b", "sleep", "15"])
     ctx.run("sudo", ["pmset", "-c", "sleep", "30"])
     ctx.run("sudo", ["pmset", "-a", "hibernatemode", "0"])
+    # Remove pre-existing sleepimage; hibernatemode 0 won't write a new one
+    # but doesn't clean up existing files (which can be equal to RAM size).
+    ctx.run("sudo", ["rm", "-f", "/var/vm/sleepimage"])
 
     # --- Xcode CLT + Rosetta 2 ---
     ctx.log("Installing foundational developer tools...")
@@ -111,13 +123,9 @@ def install(ctx):
     ctx.run("defaults", ["write", "com.apple.CrashReporter",
              "DialogType", "-string", "none"])
 
-    # --- system limits ---
-    ctx.log("Configuring system limits for heavy workloads...")
-    ctx.run("bash", ["-c",
-             "grep -q 'ulimit -n' ~/.zshrc 2>/dev/null || " +
-             "printf '\\n# Increase file descriptor limit\\nulimit -n 10240\\n' >> ~/.zshrc"])
-
     # --- background daemon priorities ---
+    # Note: sysctl changes are not persistent across reboots.
+    # To persist, add 'debug.lowpri_throttle_enabled=0' to /etc/sysctl.conf.
     ctx.log("Tuning background daemon priorities...")
     ctx.run("sudo", ["sysctl", "debug.lowpri_throttle_enabled=0"])
 
@@ -165,15 +173,12 @@ def install(ctx):
              "DSDontWriteNetworkStores", "-bool", "true"])
     ctx.run("defaults", ["write", "com.apple.desktopservices",
              "DSDontWriteUSBStores", "-bool", "true"])
-    ctx.run("/usr/libexec/PlistBuddy", ["-c",
-             "Set :DesktopViewSettings:IconViewSettings:showItemInfo true",
-             home + "/Library/Preferences/com.apple.finder.plist"])
-    ctx.run("/usr/libexec/PlistBuddy", ["-c",
-             "Set :FK_StandardViewSettings:IconViewSettings:showItemInfo true",
-             home + "/Library/Preferences/com.apple.finder.plist"])
-    ctx.run("/usr/libexec/PlistBuddy", ["-c",
-             "Set :StandardViewSettings:IconViewSettings:showItemInfo true",
-             home + "/Library/Preferences/com.apple.finder.plist"])
+    finder_plist = home + "/Library/Preferences/com.apple.finder.plist"
+    for key in ["DesktopViewSettings", "FK_StandardViewSettings", "StandardViewSettings"]:
+        path = ":" + key + ":IconViewSettings:showItemInfo"
+        r = ctx.run("/usr/libexec/PlistBuddy", ["-c", "Set " + path + " true", finder_plist])
+        if r.exit_code != 0:
+            ctx.run("/usr/libexec/PlistBuddy", ["-c", "Add " + path + " bool true", finder_plist])
     ctx.run("chflags", ["nohidden", home + "/Library"])
     ctx.run("sudo", ["chflags", "nohidden", "/Volumes"])
     ctx.run("open", ["-a", "Finder"])

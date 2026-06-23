@@ -3,10 +3,9 @@
 --
 -- Dependencies (install via meowctl):
 --   - adaptive-keyboard-layouts  (meowshed/adaptive-keyboard-layouts)
---   - zjstatus-widgets           (meowshed/zjstatus-widgets)
 --   - meowvim-keyboard-layouts   (meowshed/meowvim-keyboard-layouts)
 
--- hs.ipc: enables `hs -c "..."` CLI from terminal (required by zellij integration)
+-- Enables `hs -c "..."` from any terminal (hs.ipc provides the CLI bridge).
 require("hs.ipc")
 
 -- Reload config on file change
@@ -25,10 +24,12 @@ end
 local configWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig)
 configWatcher:start()
 
+-- startSpoon is a global so dofile(local.lua) can call it.
+-- Example in local.lua:  startSpoon("MiroWindowsManager")
 function startSpoon(name)
-    local ok, loadErr = pcall(hs.loadSpoon, name)
+    local ok, errOrSpoon = pcall(hs.loadSpoon, name)
     if not ok then
-        hs.printf("Failed to load Spoon %s: %s", name, tostring(loadErr))
+        hs.printf("Failed to load Spoon %s: %s", name, tostring(errOrSpoon))
         return
     end
 
@@ -47,13 +48,12 @@ function startSpoon(name)
     end
 end
 
--- ZJStatus widgets (zellij status bar integration)
-startSpoon("ZJStatusWidgets")
-
 -- Personal extensions (loaded last; provided by personal dotfiles layer).
 local localPath = hs.configdir .. "/local.lua"
 if hs.fs.attributes(localPath) then
     dofile(localPath)
 end
 
-hs.notify.new({ title = "Hammerspoon", informativeText = "Config loaded" }):send()
+-- hs.alert is transient and non-stacking; avoids notification pile-up on
+-- frequent auto-reloads triggered by configWatcher file-change events.
+hs.alert.show("Hammerspoon: config loaded")

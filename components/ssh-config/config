@@ -6,13 +6,18 @@
 # This file provides global defaults only.
 
 Host *
-    # Connection multiplexing — reuse connections to the same host
+    # Prefer ed25519 keys; fall back to rsa-sha2 variants.
+    IdentityFile ~/.ssh/id_ed25519
+
+    # Store passphrases in macOS Keychain so protected keys don't prompt repeatedly.
+    AddKeysToAgent yes
+    UseKeychain yes
+
+    # Connection multiplexing — reuse connections to the same host.
+    # 60 s persistence avoids stale sockets from killed terminals.
     ControlMaster auto
     ControlPath ~/.ssh/sockets/%r@%h-%p
-    ControlPersist 600
-
-    # Add keys to agent on first use
-    AddKeysToAgent yes
+    ControlPersist 60
 
     # Keep connections alive through NAT/firewall timeouts
     ServerAliveInterval 60

@@ -1,7 +1,6 @@
 --icons=auto
 --group-directories-first
---time-style=relative
---git
+--time-style=long-iso
 --header
 --group
 --binary

@@ -6,6 +6,7 @@
 # Links karabiner.json into ~/.config/karabiner/karabiner.json.
 # Caps Lock → Left Control on all keyboards.
 
+platforms = ["macos"]
 after = ["@stdlib//components/karabiner_elements"]
 
 def install(ctx):
