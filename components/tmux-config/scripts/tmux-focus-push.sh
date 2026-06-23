@@ -2,7 +2,6 @@
 # Reads active macOS Focus mode and writes it to tmux option @tmux_focus_val.
 # Called by the launchd event agent on DoNotDisturb Assertions.json change.
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
-set -eo pipefail
 
 db="$HOME/Library/DoNotDisturb/DB/Assertions.json"
 if [ ! -f "$db" ]; then

@@ -161,5 +161,8 @@ def uninstall(ctx):
     for script in _SCRIPTS:
         ctx.remove_symlink(scripts + "/" + script)
     ctx.rmdir(scripts)
+    local_conf = ctx.home + "/.config/tmux/local.conf"
+    if ctx.file_exists(local_conf):
+        ctx.run("rm", ["-f", local_conf])
     ctx.rmdir(ctx.home + "/.config/tmux")
     ctx.log("tmux-config: removed tmux configuration")

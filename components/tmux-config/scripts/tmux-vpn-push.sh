@@ -2,7 +2,6 @@
 # Checks VPN state and writes it to tmux option @tmux_vpn_val.
 # Called by the launchd event agent on SystemConfiguration directory change.
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
-set -eo pipefail
 
 active=$(ifconfig 2>/dev/null | awk '
     /^(utun|ppp|ipsec)[0-9]+:/ { iface = 1 }

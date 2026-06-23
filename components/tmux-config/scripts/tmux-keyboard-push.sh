@@ -2,7 +2,6 @@
 # Reads current keyboard layout and writes it to tmux option @tmux_keyboard_val.
 # Called by the launchd event agent on HIToolbox.plist change.
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
-set -eo pipefail
 
 layout=$(defaults read "$HOME/Library/Preferences/com.apple.HIToolbox.plist" \
     AppleCurrentKeyboardLayoutInputSourceID 2>/dev/null) || exit 0
