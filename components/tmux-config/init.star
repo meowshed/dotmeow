@@ -9,11 +9,13 @@
 # Generates ~/.config/tmux/local.conf with the fish shell path at install time
 # so tmux.conf does not need to hardcode /opt/homebrew/bin/fish.
 #
-# Installs a launchd user agent (me.retran.tmux-event-refresh) that watches:
-#   - ~/Library/Preferences/com.apple.HIToolbox.plist  (keyboard layout)
-#   - ~/Library/DoNotDisturb/DB/Assertions.json         (focus mode)
-#   - /Library/Preferences/SystemConfiguration          (VPN / network changes)
-# On any change it runs tmux-event-push.sh which updates tmux options instantly.
+# Installs a launchd user agent (me.retran.tmux-event-refresh) that:
+#   - Watches ~/Library/Preferences/com.apple.HIToolbox.plist (keyboard layout)
+#   - Watches ~/Library/DoNotDisturb/DB/Assertions.json        (focus mode)
+#   - Watches /Library/Preferences/SystemConfiguration         (legacy VPN / network)
+#   - Polls every 30 s via StartInterval                       (Network Extension VPNs:
+#                                                               Tailscale, WireGuard, etc.)
+# On any trigger it runs tmux-event-push.sh which updates tmux options instantly.
 #
 # TPM bootstrap (one-time, run after first meowctl apply):
 #   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -71,6 +73,8 @@ def _install_event_agent(ctx):
         '        <string>' + ctx.home + '/Library/DoNotDisturb/DB/Assertions.json</string>\n'
         '        <string>/Library/Preferences/SystemConfiguration</string>\n'
         '    </array>\n'
+        '    <key>StartInterval</key>\n'
+        '    <integer>30</integer>\n'
         '    <key>ProgramArguments</key>\n'
         '    <array>\n'
         '        <string>/bin/bash</string>\n'
@@ -83,10 +87,12 @@ def _install_event_agent(ctx):
     )
     ctx.mkdir(ctx.home + "/Library/LaunchAgents")
     pp = _plist_path(ctx)
-    ctx.write_file(pp, plist)
     uid = ctx.run("id", ["-u"]).stdout.strip()
     ctx.run("sh", ["-c",
-        "launchctl bootout gui/" + uid + " " + pp + " 2>/dev/null || true; " +
+        "launchctl bootout gui/" + uid + "/" + _PLIST_LABEL + " 2>/dev/null || true",
+    ])
+    ctx.write_file(pp, plist)
+    ctx.run("sh", ["-c",
         "launchctl bootstrap gui/" + uid + " " + pp,
     ])
     ctx.log("tmux-config: loaded launchd event agent " + _PLIST_LABEL)

@@ -9,22 +9,26 @@ pct=$(echo "$batt" | grep -o '[0-9]*%' | head -1 | tr -d '%')
 [ -z "$pct" ] && exit 0
 
 if echo "$batt" | grep -q 'AC Power'; then
-    if echo "$batt" | grep -q 'charged'; then
+    # Use percentage rather than the status string to handle all AC states
+    # ("charged", "finishing charge", etc.) uniformly.
+    if [ "$pct" -eq 100 ]; then
         icon="󰁹"; color="#a6e3a1"
     else
         icon="󰂄"; color="#a6e3a1"
     fi
 else
-    icons=("󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹")
-    level=$(( pct / 10 ))
-    [ "$level" -gt 10 ] && level=10
-    icon="${icons[$level]}"
-    if [ "$pct" -le 15 ]; then
-        color="#f38ba8"
-    elif [ "$pct" -le 30 ]; then
-        color="#fab387"
+    if [ "$pct" -le 10 ]; then
+        icon="󰂃"; color="#f38ba8"
     else
-        color="#f9e2af"
+        icons=("󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹")
+        level=$(( pct / 10 ))
+        [ "$level" -gt 10 ] && level=10
+        icon="${icons[$level]}"
+        if [ "$pct" -le 30 ]; then
+            color="#fab387"
+        else
+            color="#f9e2af"
+        fi
     fi
 fi
 

@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(meowctl shell *)",
+      "Read(//Users/retran/.local/bin/**)",
+      "Read(//opt/homebrew/Caskroom/claude-code/2.1.153/**)",
+      "Bash(command -v atuin)",
+      "Bash(atuin init *)",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(meowctl hook *)",
+      "Bash(MEOWCTL_SHELL=fish meowctl hook *)",
+      "Bash(zellij --help)",
+      "Bash(zellij action *)",
+      "Bash(grep -v '^$')",
+      "Bash(mise uninstall *)",
+      "Bash(mise remove *)",
+      "Bash(meowctl --help)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git tag *)",
+      "Bash(git push *)",
+      "Bash(gh run *)",
+      "Bash(grep -E '\\\\.\\(kdl|fish|zsh|sh|toml|yaml|yml|json\\)$')",
+      "Bash(git *)"
+    ]
+  }
+}
