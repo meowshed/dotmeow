@@ -22,7 +22,6 @@ else
     else
         icons=("󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹")
         level=$(( pct / 10 ))
-        [ "$level" -gt 10 ] && level=10
         icon="${icons[$level]}"
         if [ "$pct" -le 30 ]; then
             color="#fab387"

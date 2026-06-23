@@ -1,6 +1,6 @@
 #!/bin/bash
 # Checks VPN state and writes it to tmux option @tmux_vpn_val.
-# Called by the launchd event agent on SystemConfiguration directory change.
+# Triggered by the launchd agent on SystemConfiguration change or every 30 s (StartInterval).
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
 
 active=$(ifconfig 2>/dev/null | awk '

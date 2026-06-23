@@ -1,6 +1,6 @@
 #!/bin/bash
 # Reads active macOS Focus mode and writes it to tmux option @tmux_focus_val.
-# Called by the launchd event agent on DoNotDisturb Assertions.json change.
+# Triggered by the launchd agent on DoNotDisturb Assertions.json change or every 30 s (StartInterval).
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
 
 db="$HOME/Library/DoNotDisturb/DB/Assertions.json"
