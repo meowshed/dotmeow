@@ -31,9 +31,19 @@ def install(ctx):
 def upgrade(ctx):
     dest = ctx.home + "/.config/karabiner/karabiner.json"
     if ctx.file_exists(dest):
-        ctx.log("karabiner-config: skipping re-prompt on upgrade (run meowctl apply to reconfigure keyboard type)")
-        return
-    install(ctx)
+        # Read the current keyboard_type from the on-disk file so we can
+        # re-render the template without prompting again.
+        r = ctx.run("plutil", ["-extract",
+                    "profiles.0.virtual_hid_keyboard.keyboard_type",
+                    "raw", dest])
+        ktype = r.stdout.strip().lower()
+        if ktype not in ["iso", "ansi"]:
+            ktype = "iso"
+        content = ctx.render_file("karabiner.json.tmpl", {"KEYBOARD_TYPE": ktype})
+        ctx.write_file(dest, content)
+        ctx.log("karabiner-config: re-rendered template with keyboard_type=" + ktype)
+    else:
+        install(ctx)
 
 def verify(ctx):
     dest = ctx.home + "/.config/karabiner/karabiner.json"
