@@ -1,7 +1,7 @@
 #!/bin/bash
 # Reads active macOS Focus mode and writes it to tmux option @tmux_focus_val.
 # Triggered by the launchd agent on DoNotDisturb Assertions.json change or every 30 s (StartInterval).
-export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
+export PATH="$HOME/.local/share/mise/shims:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
 
 _clear() { tmux set-option -g @tmux_focus_val "" 2>/dev/null || true; }
 
@@ -28,4 +28,4 @@ case "$mode_id" in
 esac
 
 tmux set-option -g @tmux_focus_val \
-    "$(printf '#[fg=#cba6f7,bg=#1e1e2e]%s %s  ' "$icon" "$label")" 2>/dev/null || true
+    "$(printf '#[fg=#cba6f7,bg=#1e1e2e]%s %s ' "$icon" "$label")" 2>/dev/null || true

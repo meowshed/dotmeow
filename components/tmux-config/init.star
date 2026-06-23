@@ -9,13 +9,13 @@
 # Generates ~/.config/tmux/local.conf with the fish shell path at install time
 # so tmux.conf does not need to hardcode /opt/homebrew/bin/fish.
 #
-# Installs a launchd user agent (me.retran.tmux-event-refresh) that:
-#   - Watches ~/Library/Preferences/com.apple.HIToolbox.plist (keyboard layout)
-#   - Watches ~/Library/DoNotDisturb/DB/Assertions.json        (focus mode)
-#   - Watches /Library/Preferences/SystemConfiguration         (legacy VPN / network)
-#   - Polls every 30 s via StartInterval                       (Network Extension VPNs:
-#                                                               Tailscale, WireGuard, etc.)
-# On any trigger it runs tmux-event-push.sh which updates tmux options instantly.
+# All status-bar widgets are polled every status-interval second (no launchd agent).
+# post-tpm.conf is linked and sourced by tmux.conf after TPM loads to override
+# catppuccin window-status formats.
+#
+# Dependencies:
+#   - osx-cpu-temp  (brew)  — CPU temperature widget (Intel only; silently skipped on Apple Silicon)
+#   - libtmux       (pip3)  — required by ofirgall/tmux-window-name plugin
 #
 # TPM bootstrap (one-time, run after first meowctl apply):
 #   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -28,7 +28,11 @@ _SCRIPTS = [
     "tmux-keyboard.sh",
     "tmux-vpn.sh",
     "tmux-focus.sh",
+    "tmux-network.sh",
+    "tmux-volume.sh",
     "tmux-cpu.sh",
+    "tmux-temp.sh",
+    "tmux-disk.sh",
     "tmux-memory.sh",
     "tmux-battery.sh",
     "tmux-date.sh",
@@ -39,13 +43,8 @@ _SCRIPTS = [
     "tmux-event-push.sh",
 ]
 
-_PLIST_LABEL = "me.retran.tmux-event-refresh"
-
 def _tmux_scripts(ctx):
     return ctx.home + "/.config/tmux/scripts"
-
-def _plist_path(ctx):
-    return ctx.home + "/Library/LaunchAgents/" + _PLIST_LABEL + ".plist"
 
 def _write_local_conf(ctx):
     r = ctx.run("which", ["fish"])
@@ -57,34 +56,10 @@ def _write_local_conf(ctx):
     else:
         ctx.log("tmux-config: fish not found — local.conf not written; tmux will use default shell")
 
-def _install_event_agent(ctx):
-    push_script = ctx.home + "/.config/tmux/scripts/tmux-event-push.sh"
-    plist = ctx.render_file("launchd-event-refresh.plist.tmpl", {
-        "LABEL": _PLIST_LABEL,
-        "HOME": ctx.home,
-        "PUSH_SCRIPT": push_script,
-    })
-    ctx.mkdir(ctx.home + "/Library/LaunchAgents")
-    pp = _plist_path(ctx)
-    uid = ctx.run("id", ["-u"]).stdout.strip()
-    ctx.run("sh", ["-c",
-        "launchctl bootout gui/" + uid + "/" + _PLIST_LABEL + " 2>/dev/null || true",
-    ])
-    ctx.write_file(pp, plist)
-    ctx.run("sh", ["-c",
-        "launchctl bootstrap gui/" + uid + " " + pp,
-    ])
-    ctx.log("tmux-config: loaded launchd event agent " + _PLIST_LABEL)
-
-def _remove_event_agent(ctx):
-    pp = _plist_path(ctx)
-    if ctx.file_exists(pp):
-        uid = ctx.run("id", ["-u"]).stdout.strip()
-        ctx.run("sh", ["-c",
-            "launchctl bootout gui/" + uid + " " + pp + " 2>/dev/null || true",
-        ])
-        ctx.run("rm", ["-f", pp])
-        ctx.log("tmux-config: removed launchd event agent " + _PLIST_LABEL)
+def _install_deps(ctx):
+    ctx.run("sh", ["-c", "brew install osx-cpu-temp 2>/dev/null || true"])
+    ctx.run("sh", ["-c", "pip3 install libtmux --break-system-packages --quiet 2>/dev/null || true"])
+    ctx.log("tmux-config: installed osx-cpu-temp and libtmux")
 
 def install(ctx):
     tpm_path = ctx.home + "/.tmux/plugins/tpm"
@@ -98,14 +73,16 @@ def install(ctx):
     ctx.mkdir(fish_confd)
     ctx.link_file("conf.d/tmux-autostart.fish", fish_confd + "/tmux-autostart.fish")
 
-    scripts = _tmux_scripts(ctx)
     ctx.mkdir(ctx.home + "/.config/tmux")
+    scripts = _tmux_scripts(ctx)
     ctx.mkdir(scripts)
     for script in _SCRIPTS:
         ctx.link_file("scripts/" + script, scripts + "/" + script)
 
+    ctx.link_file("post-tpm.conf", ctx.home + "/.config/tmux/post-tpm.conf")
+
     _write_local_conf(ctx)
-    _install_event_agent(ctx)
+    _install_deps(ctx)
     ctx.log("tmux-config: linked tmux configuration")
 
 def upgrade(ctx):
@@ -117,7 +94,11 @@ def upgrade(ctx):
 
 def verify(ctx):
     ok = True
-    for path in [ctx.home + "/.tmux.conf", ctx.home + "/.config/tmux/local.conf"]:
+    for path in [
+        ctx.home + "/.tmux.conf",
+        ctx.home + "/.config/tmux/local.conf",
+        ctx.home + "/.config/tmux/post-tpm.conf",
+    ]:
         if not ctx.file_exists(path):
             ctx.log("tmux-config: MISSING " + path)
             ok = False
@@ -126,16 +107,13 @@ def verify(ctx):
         if not ctx.file_exists(p):
             ctx.log("tmux-config: MISSING " + p)
             ok = False
-    if not ctx.file_exists(_plist_path(ctx)):
-        ctx.log("tmux-config: MISSING launchd agent " + _PLIST_LABEL)
-        ok = False
     if ok:
         ctx.log("tmux-config: OK")
 
 def uninstall(ctx):
-    _remove_event_agent(ctx)
     ctx.remove_symlink(ctx.home + "/.tmux.conf")
     ctx.remove_symlink(ctx.home + "/.config/fish/conf.d/tmux-autostart.fish")
+    ctx.remove_symlink(ctx.home + "/.config/tmux/post-tpm.conf")
     scripts = _tmux_scripts(ctx)
     for script in _SCRIPTS:
         ctx.remove_symlink(scripts + "/" + script)

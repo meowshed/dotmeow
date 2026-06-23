@@ -1,7 +1,7 @@
 #!/bin/bash
 # Reads current keyboard layout and writes it to tmux option @tmux_keyboard_val.
 # Triggered by the launchd agent on HIToolbox.plist change or every 30 s (StartInterval).
-export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
+export PATH="$HOME/.local/share/mise/shims:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
 
 layout=$(defaults read "$HOME/Library/Preferences/com.apple.HIToolbox.plist" \
     AppleCurrentKeyboardLayoutInputSourceID 2>/dev/null) || exit 0

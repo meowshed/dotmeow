@@ -29,10 +29,9 @@ pct=$(( used_bytes * 100 / total_bytes ))
 
 used_gib=$(awk -v b="$used_bytes" 'BEGIN {printf "%.1f", b / 1073741824}')
 
-if [ "$pct" -ge 90 ]; then
-    color="#f38ba8"
-else
-    color="#f9e2af"
+if   [ "$pct" -ge 90 ]; then color="#f38ba8"
+elif [ "$pct" -ge 80 ]; then color="#fab387"
+else                         color="#f9e2af"
 fi
 
-printf '#[fg=%s,bg=#1e1e2e]󰍛 %sG  ' "$color" "$used_gib"
+printf '#[fg=%s,bg=#1e1e2e]󰍛 %sG ' "$color" "$used_gib"

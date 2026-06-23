@@ -3,7 +3,7 @@
 # Invoked by the launchd agent (me.retran.tmux-event-refresh) on file-system
 # changes or every 30 s (StartInterval). Uses an atomic mkdir lock so
 # concurrent invocations (e.g. multiple client-attached hooks) collapse into one.
-export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
+export PATH="$HOME/.local/share/mise/shims:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
 
 lockdir="/tmp/tmux-event-push-${UID}.lock"
 mkdir "$lockdir" 2>/dev/null || exit 0

@@ -15,10 +15,9 @@ cpu_total=$(ps -A -o %cpu= 2>/dev/null | awk '{sum += $1} END {printf "%.0f", su
 pct=$(awk -v total="$cpu_total" -v cpus="$num_cpus" 'BEGIN {printf "%d", total / cpus}')
 [ "$pct" -lt 60 ] && exit 0
 
-if [ "$pct" -ge 90 ]; then
-    color="#f38ba8"
-else
-    color="#f9e2af"
+if   [ "$pct" -ge 90 ]; then color="#f38ba8"
+elif [ "$pct" -ge 75 ]; then color="#fab387"
+else                         color="#f9e2af"
 fi
 
-printf '#[fg=%s,bg=#1e1e2e]󰻠 %d%%%%  ' "$color" "$pct"
+printf '#[fg=%s,bg=#1e1e2e]󰻠 %d%% ' "$color" "$pct"
