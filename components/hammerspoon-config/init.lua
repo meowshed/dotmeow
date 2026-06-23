@@ -1,9 +1,5 @@
 -- ~/.hammerspoon/init.lua — managed by dotmeow
 -- https://github.com/meowshed/dotmeow
---
--- Dependencies (install via meowctl):
---   - adaptive-keyboard-layouts  (meowshed/adaptive-keyboard-layouts)
---   - meowvim-keyboard-layouts   (meowshed/meowvim-keyboard-layouts)
 
 -- Enables `hs -c "..."` from any terminal (hs.ipc provides the CLI bridge).
 require("hs.ipc")

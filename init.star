@@ -16,7 +16,6 @@ after = [
     "@stdlib//bundles/modern-shell",
     "@stdlib//bundles/modern-macos",
     "@stdlib//bundles/github",
-    "@stdlib//components/hammerspoon",
     "@stdlib//components/displayplacer",
     "@stdlib//components/imagemagick",
     "@stdlib//components/ffmpeg",
@@ -59,7 +58,6 @@ after = [
     "btop-config",
     "tealdeer-config",
     "fzf-config",
-    "hammerspoon-config",
     "karabiner-config",
     "macos-defaults",
 ]
