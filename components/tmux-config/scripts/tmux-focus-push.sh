@@ -3,22 +3,15 @@
 # Triggered by the launchd agent on DoNotDisturb Assertions.json change or every 30 s (StartInterval).
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
 
+_clear() { tmux set-option -g @tmux_focus_val "" 2>/dev/null || true; }
+
 db="$HOME/Library/DoNotDisturb/DB/Assertions.json"
-if [ ! -f "$db" ]; then
-    tmux set-option -g @tmux_focus_val "" 2>/dev/null || true
-    exit 0
-fi
+[ -f "$db" ] || { _clear; exit 0; }
 
 mode_id=$(plutil -extract \
     'data.0.storeAssertionRecords.0.assertionDetails.assertionDetailsModeIdentifier' \
-    raw "$db" 2>/dev/null) || {
-    tmux set-option -g @tmux_focus_val "" 2>/dev/null || true
-    exit 0
-}
-if [ -z "$mode_id" ]; then
-    tmux set-option -g @tmux_focus_val "" 2>/dev/null || true
-    exit 0
-fi
+    raw "$db" 2>/dev/null) || { _clear; exit 0; }
+[ -n "$mode_id" ] || { _clear; exit 0; }
 
 case "$mode_id" in
     com.apple.donotdisturb.mode.default)    icon="󰂶"; label="DND"        ;;

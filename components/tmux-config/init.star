@@ -59,32 +59,11 @@ def _write_local_conf(ctx):
 
 def _install_event_agent(ctx):
     push_script = ctx.home + "/.config/tmux/scripts/tmux-event-push.sh"
-    plist = (
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"'
-        ' "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n'
-        '<plist version="1.0">\n'
-        '<dict>\n'
-        '    <key>Label</key>\n'
-        '    <string>' + _PLIST_LABEL + '</string>\n'
-        '    <key>WatchPaths</key>\n'
-        '    <array>\n'
-        '        <string>' + ctx.home + '/Library/Preferences/com.apple.HIToolbox.plist</string>\n'
-        '        <string>' + ctx.home + '/Library/DoNotDisturb/DB/Assertions.json</string>\n'
-        '        <string>/Library/Preferences/SystemConfiguration</string>\n'
-        '    </array>\n'
-        '    <key>StartInterval</key>\n'
-        '    <integer>30</integer>\n'
-        '    <key>ProgramArguments</key>\n'
-        '    <array>\n'
-        '        <string>/bin/bash</string>\n'
-        '        <string>' + push_script + '</string>\n'
-        '    </array>\n'
-        '    <key>RunAtLoad</key>\n'
-        '    <false/>\n'
-        '</dict>\n'
-        '</plist>\n'
-    )
+    plist = ctx.render_file("launchd-event-refresh.plist.tmpl", {
+        "LABEL": _PLIST_LABEL,
+        "HOME": ctx.home,
+        "PUSH_SCRIPT": push_script,
+    })
     ctx.mkdir(ctx.home + "/Library/LaunchAgents")
     pp = _plist_path(ctx)
     uid = ctx.run("id", ["-u"]).stdout.strip()
