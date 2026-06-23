@@ -20,8 +20,8 @@ def install(ctx):
     ctx.mkdir(d)
     dest = d + "/karabiner.json"
 
-    ktype = ctx.prompt("Keyboard type? (iso/ansi, leave blank for iso)")
-    if ktype != "ansi":
+    ktype = ctx.prompt("Keyboard type? (iso/ansi, leave blank for iso)").lower().strip()
+    if ktype not in ["iso", "ansi"]:
         ktype = "iso"
 
     content = ctx.render_file("karabiner.json.tmpl", {"KEYBOARD_TYPE": ktype})
@@ -29,6 +29,10 @@ def install(ctx):
     ctx.log("karabiner-config: wrote karabiner.json with keyboard_type=" + ktype)
 
 def upgrade(ctx):
+    dest = ctx.home + "/.config/karabiner/karabiner.json"
+    if ctx.file_exists(dest):
+        ctx.log("karabiner-config: skipping re-prompt on upgrade (run meowctl apply to reconfigure keyboard type)")
+        return
     install(ctx)
 
 def verify(ctx):

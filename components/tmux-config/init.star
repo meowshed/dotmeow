@@ -32,7 +32,7 @@ def _write_local_conf(ctx):
     fish_path = r.stdout.strip()
     if fish_path:
         local_conf = ctx.home + "/.config/tmux/local.conf"
-        ctx.run("sh", ["-c", "printf 'set -g default-shell %s\\n' '" + fish_path + "' > '" + local_conf + "'"])
+        ctx.write_file(local_conf, "set -g default-shell " + fish_path + "\n")
         ctx.log("tmux-config: wrote local.conf with default-shell=" + fish_path)
     else:
         ctx.log("tmux-config: fish not found — local.conf not written; tmux will use default shell")

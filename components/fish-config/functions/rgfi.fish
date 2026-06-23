@@ -12,7 +12,7 @@ function rgfi --description 'Interactive ripgrep with fzf preview'
 
     set -l result (rg --color=always --line-number --no-heading $query | fzf --ansi \
         --delimiter ':' \
-        --preview 'bat --color=always --highlight-line {2} --line-range (({2}-5)):+60 {1}' \
+        --preview 'bat --color=always --highlight-line {2} --line-range $(({2}-5)):+60 {1}' \
         --preview-window 'up:60%:wrap')
 
     if test -n "$result"

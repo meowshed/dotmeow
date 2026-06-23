@@ -10,7 +10,7 @@ set -eo pipefail
 num_cpus=$(sysctl -n hw.logicalcpu 2>/dev/null) || exit 0
 cpu_total=$(ps -A -o %cpu= 2>/dev/null | awk '{sum += $1} END {printf "%.0f", sum}')
 
-[ -z "$cpu_total" ] || [ -z "$num_cpus" ] && exit 0
+{ [ -z "$cpu_total" ] || [ -z "$num_cpus" ]; } && exit 0
 
 pct=$(awk -v total="$cpu_total" -v cpus="$num_cpus" 'BEGIN {printf "%d", total / cpus}')
 [ "$pct" -lt 60 ] && exit 0
