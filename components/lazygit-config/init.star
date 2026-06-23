@@ -15,5 +15,12 @@ def install(ctx):
 def upgrade(ctx):
     install(ctx)
 
+def verify(ctx):
+    p = ctx.home + "/.config/lazygit/config.yml"
+    if ctx.file_exists(p):
+        ctx.log("lazygit-config: OK")
+    else:
+        ctx.log("lazygit-config: MISSING " + p)
+
 def uninstall(ctx):
     ctx.remove_symlink(ctx.home + "/.config/lazygit/config.yml")

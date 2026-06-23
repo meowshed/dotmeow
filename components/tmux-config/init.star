@@ -1,15 +1,19 @@
 # components/tmux-config.star
 #
-# platform: all
+# platform: macos
 # after:    ["@stdlib//components/tmux", "@stdlib//components/sesh", "@stdlib//components/fish"]
 #
 # Links tmux configuration and status bar scripts into their canonical locations.
 # Scripts are committed as executable (chmod +x in repo); no chmod needed at link time.
 #
+# Generates ~/.config/tmux/local.conf with the fish shell path at install time
+# so tmux.conf does not need to hardcode /opt/homebrew/bin/fish.
+#
 # TPM bootstrap (one-time, run after first meowctl apply):
 #   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 #   Then launch tmux and press prefix + I
 
+platforms = ["macos"]
 after = ["@stdlib//components/tmux", "@stdlib//components/sesh", "@stdlib//components/fish"]
 
 _SCRIPTS = [
@@ -22,6 +26,16 @@ _SCRIPTS = [
 
 def _tmux_scripts(ctx):
     return ctx.home + "/.config/tmux/scripts"
+
+def _write_local_conf(ctx):
+    r = ctx.run("which", ["fish"])
+    fish_path = r.stdout.strip()
+    if fish_path:
+        local_conf = ctx.home + "/.config/tmux/local.conf"
+        ctx.run("sh", ["-c", "printf 'set -g default-shell %s\\n' '" + fish_path + "' > '" + local_conf + "'"])
+        ctx.log("tmux-config: wrote local.conf with default-shell=" + fish_path)
+    else:
+        ctx.log("tmux-config: fish not found — local.conf not written; tmux will use default shell")
 
 def install(ctx):
     tpm_path = ctx.home + "/.tmux/plugins/tpm"
@@ -41,6 +55,7 @@ def install(ctx):
     for script in _SCRIPTS:
         ctx.link_file("scripts/" + script, scripts + "/" + script)
 
+    _write_local_conf(ctx)
     ctx.log("tmux-config: linked tmux configuration")
 
 def upgrade(ctx):
@@ -49,6 +64,20 @@ def upgrade(ctx):
     if ctx.file_exists(tpm_path):
         ctx.run("git", ["-C", tpm_path, "pull", "--ff-only"])
         ctx.log("tmux-config: updated TPM")
+
+def verify(ctx):
+    ok = True
+    for path in [ctx.home + "/.tmux.conf", ctx.home + "/.config/tmux/local.conf"]:
+        if not ctx.file_exists(path):
+            ctx.log("tmux-config: MISSING " + path)
+            ok = False
+    for script in _SCRIPTS:
+        p = _tmux_scripts(ctx) + "/" + script
+        if not ctx.file_exists(p):
+            ctx.log("tmux-config: MISSING " + p)
+            ok = False
+    if ok:
+        ctx.log("tmux-config: OK")
 
 def uninstall(ctx):
     ctx.remove_symlink(ctx.home + "/.tmux.conf")

@@ -17,6 +17,16 @@ def install(ctx):
 def upgrade(ctx):
     install(ctx)
 
+def verify(ctx):
+    d = ctx.home + "/.config/eza"
+    ok = True
+    for p in [d + "/config", d + "/theme.yml"]:
+        if not ctx.file_exists(p):
+            ctx.log("eza-config: MISSING " + p)
+            ok = False
+    if ok:
+        ctx.log("eza-config: OK")
+
 def uninstall(ctx):
     ctx.remove_symlink(ctx.home + "/.config/eza/config")
     ctx.remove_symlink(ctx.home + "/.config/eza/theme.yml")

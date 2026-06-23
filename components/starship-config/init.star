@@ -13,5 +13,12 @@ def install(ctx):
 def upgrade(ctx):
     install(ctx)
 
+def verify(ctx):
+    p = ctx.home + "/.config/starship.toml"
+    if ctx.file_exists(p):
+        ctx.log("starship-config: OK")
+    else:
+        ctx.log("starship-config: MISSING " + p)
+
 def uninstall(ctx):
     ctx.remove_symlink(ctx.home + "/.config/starship.toml")

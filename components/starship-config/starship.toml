@@ -259,6 +259,7 @@ symbol = "󱁤"
 style = "fg:color_env"
 format = '( [$symbol $version]($style) )'
 detect_files = [".mise.toml", "mise.toml"]
+detect_folders = [".mise"]
 disabled = false
 
 [package]

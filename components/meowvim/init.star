@@ -24,6 +24,15 @@ def upgrade(ctx):
     # --ff-only fails if the remote was force-pushed; run `git fetch && git reset --hard @{u}` manually in that case.
     ctx.run("git", ["-C", dst, "pull", "--ff-only"])
 
+def verify(ctx):
+    dst = ctx.home + "/.config/nvim"
+    if ctx.file_exists(dst + "/.git"):
+        ctx.log("meowvim: OK")
+    elif ctx.file_exists(dst):
+        ctx.log("meowvim: EXISTS but not a git repo — run meowctl apply to repair")
+    else:
+        ctx.log("meowvim: MISSING " + dst)
+
 def uninstall(ctx):
     dst = ctx.home + "/.config/nvim"
     ctx.log("meowvim: removing %s — ensure your config is committed before proceeding" % dst)

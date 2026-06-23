@@ -17,6 +17,16 @@ def install(ctx):
 def upgrade(ctx):
     install(ctx)
 
+def verify(ctx):
+    d = ctx.home + "/.config/btop"
+    ok = True
+    for p in [d + "/btop.conf", d + "/themes/catppuccin-mocha.theme"]:
+        if not ctx.file_exists(p):
+            ctx.log("btop-config: MISSING " + p)
+            ok = False
+    if ok:
+        ctx.log("btop-config: OK")
+
 def uninstall(ctx):
     ctx.remove_symlink(ctx.home + "/.config/btop/btop.conf")
     ctx.remove_symlink(ctx.home + "/.config/btop/themes/catppuccin-mocha.theme")

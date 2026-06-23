@@ -85,9 +85,9 @@ end
 # autoloaded function (interactive ripgrep with fzf).  Add it in 99-local.fish
 # if you prefer the simple form.
 if command -q rg
-    abbr --add rgh  'rg --hidden'
-    abbr --add rgi  'rg --no-ignore'
-    abbr --add rgl  'rg --files-with-matches'
+    abbr --query rgh || abbr --add rgh  'rg --hidden'
+    abbr --query rgi || abbr --add rgi  'rg --no-ignore'
+    abbr --query rgl || abbr --add rgl  'rg --files-with-matches'
 end
 
 # ---------------------------------------------------------------------------
@@ -99,11 +99,13 @@ end
 # Abbreviations expand before functions are called, so the function would be
 # dead code.  Use the function names directly or add personal abbreviations
 # in 99-local.fish if you prefer the simple form.
+#
+# Guard with --query so interactive additions in 99-local.fish are preserved.
 if command -q git
-    abbr --add g     git
-    abbr --add gd    'git diff'
-    abbr --add ga    'git add'
-    abbr --add gc    'git commit'
-    abbr --add gp    'git push'
-    abbr --add gl    'git pull'
+    abbr --query g  || abbr --add g     git
+    abbr --query gd || abbr --add gd    'git diff'
+    abbr --query ga || abbr --add ga    'git add'
+    abbr --query gc || abbr --add gc    'git commit'
+    abbr --query gp || abbr --add gp    'git push'
+    abbr --query gl || abbr --add gl    'git pull'
 end

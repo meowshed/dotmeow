@@ -61,6 +61,21 @@ def upgrade(ctx):
 
     install(ctx)
 
+def verify(ctx):
+    fish = ctx.home + "/.config/fish"
+    ok = True
+    for p in [
+        fish + "/config.fish",
+        fish + "/conf.d/00-environment.fish",
+        fish + "/conf.d/30-aliases.fish",
+        fish + "/functions/mkcd.fish",
+    ]:
+        if not ctx.file_exists(p):
+            ctx.log("fish-config: MISSING " + p)
+            ok = False
+    if ok:
+        ctx.log("fish-config: OK")
+
 def uninstall(ctx):
     fish = ctx.home + "/.config/fish"
     ctx.remove_symlink(fish + "/config.fish")

@@ -24,6 +24,19 @@ def upgrade(ctx):
     ctx.link_file("config", d + "/config")
     ctx.link_file("ignore", d + "/ignore")
 
+def verify(ctx):
+    d = ctx.home + "/.config/git"
+    ok = True
+    for p in [d + "/config", d + "/ignore"]:
+        if not ctx.file_exists(p):
+            ctx.log("git-config: MISSING " + p)
+            ok = False
+    if not ctx.file_exists(d + "/local.gitconfig"):
+        ctx.log("git-config: MISSING " + d + "/local.gitconfig (run meowctl apply to create)")
+        ok = False
+    if ok:
+        ctx.log("git-config: OK")
+
 def uninstall(ctx):
     d = ctx.home + "/.config/git"
     ctx.remove_symlink(d + "/config")

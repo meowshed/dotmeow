@@ -16,6 +16,13 @@ def install(ctx):
 def upgrade(ctx):
     install(ctx)
 
+def verify(ctx):
+    p = ctx.home + "/.config/bat/config"
+    if ctx.file_exists(p):
+        ctx.log("bat-config: OK")
+    else:
+        ctx.log("bat-config: MISSING " + p)
+
 def uninstall(ctx):
     ctx.remove_symlink(ctx.home + "/.config/bat/config")
 

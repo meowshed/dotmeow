@@ -124,10 +124,12 @@ def install(ctx):
              "DialogType", "-string", "none"])
 
     # --- background daemon priorities ---
-    # Note: sysctl changes are not persistent across reboots.
-    # To persist, add 'debug.lowpri_throttle_enabled=0' to /etc/sysctl.conf.
     ctx.log("Tuning background daemon priorities...")
     ctx.run("sudo", ["sysctl", "debug.lowpri_throttle_enabled=0"])
+    # Persist across reboots via /etc/sysctl.conf.
+    ctx.run("sudo", ["sh", "-c",
+             "grep -qF 'debug.lowpri_throttle_enabled' /etc/sysctl.conf 2>/dev/null " +
+             "|| echo 'debug.lowpri_throttle_enabled=0' >> /etc/sysctl.conf"])
 
     # --- hardware-specific tuning ---
     ctx.log("Tuning for Studio Display and pro hardware...")

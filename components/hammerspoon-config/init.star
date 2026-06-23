@@ -14,5 +14,12 @@ def install(ctx):
 def upgrade(ctx):
     ctx.link_file("init.lua", ctx.home + "/.hammerspoon/init.lua")
 
+def verify(ctx):
+    p = ctx.home + "/.hammerspoon/init.lua"
+    if ctx.file_exists(p):
+        ctx.log("hammerspoon-config: OK")
+    else:
+        ctx.log("hammerspoon-config: MISSING " + p)
+
 def uninstall(ctx):
     ctx.remove_symlink(ctx.home + "/.hammerspoon/init.lua")

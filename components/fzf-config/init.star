@@ -19,6 +19,13 @@ def install(ctx):
 def upgrade(ctx):
     install(ctx)
 
+def verify(ctx):
+    p = ctx.home + "/.config/fish/conf.d/fzf-theme.fish"
+    if ctx.file_exists(p):
+        ctx.log("fzf-config: OK")
+    else:
+        ctx.log("fzf-config: MISSING " + p)
+
 def uninstall(ctx):
     ctx.remove_symlink(ctx.home + "/.config/fish/conf.d/fzf-theme.fish")
 
