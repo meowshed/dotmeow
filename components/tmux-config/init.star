@@ -1,7 +1,8 @@
 # components/tmux-config.star
 #
 # platform: macos
-# after:    ["@stdlib//components/tmux", "@stdlib//components/sesh", "@stdlib//components/fish"]
+# after:    ["@stdlib//components/tmux", "@stdlib//components/sesh", "@stdlib//components/fish",
+#            "@stdlib//components/brew", "@stdlib//components/python"]
 #
 # Links tmux configuration and status bar scripts into their canonical locations.
 # Scripts are committed as executable (chmod +x in repo); no chmod needed at link time.
@@ -22,7 +23,8 @@
 #   Then launch tmux and press prefix + I
 
 platforms = ["macos"]
-after = ["@stdlib//components/tmux", "@stdlib//components/sesh", "@stdlib//components/fish"]
+after = ["@stdlib//components/tmux", "@stdlib//components/sesh", "@stdlib//components/fish",
+         "@stdlib//components/brew", "@stdlib//components/python"]
 
 _SCRIPTS = [
     "tmux-keyboard.sh",
@@ -56,10 +58,9 @@ def _write_local_conf(ctx):
     else:
         ctx.log("tmux-config: fish not found — local.conf not written; tmux will use default shell")
 
-def _install_deps(ctx):
-    ctx.run("sh", ["-c", "brew install osx-cpu-temp 2>/dev/null || true"])
-    ctx.run("sh", ["-c", "pip3 install libtmux --break-system-packages --quiet 2>/dev/null || true"])
-    ctx.log("tmux-config: installed osx-cpu-temp and libtmux")
+def _install_deps():
+    pkg(manager = "brew", name = "osx-cpu-temp")
+    pkg(manager = "python", name = "libtmux")
 
 def install(ctx):
     tpm_path = ctx.home + "/.tmux/plugins/tpm"
@@ -82,11 +83,13 @@ def install(ctx):
     ctx.link_file("post-tpm.conf", ctx.home + "/.config/tmux/post-tpm.conf")
 
     _write_local_conf(ctx)
-    _install_deps(ctx)
+    _install_deps()
     ctx.log("tmux-config: linked tmux configuration")
 
 def upgrade(ctx):
     install(ctx)
+    uppkg(manager = "brew", name = "osx-cpu-temp")
+    uppkg(manager = "python", name = "libtmux")
     tpm_path = ctx.home + "/.tmux/plugins/tpm"
     if ctx.file_exists(tpm_path):
         ctx.run("git", ["-C", tpm_path, "pull", "--ff-only"])
@@ -111,6 +114,8 @@ def verify(ctx):
         ctx.log("tmux-config: OK")
 
 def uninstall(ctx):
+    unpkg(manager = "brew", name = "osx-cpu-temp")
+    unpkg(manager = "python", name = "libtmux")
     ctx.remove_symlink(ctx.home + "/.tmux.conf")
     ctx.remove_symlink(ctx.home + "/.config/fish/conf.d/tmux-autostart.fish")
     ctx.remove_symlink(ctx.home + "/.config/tmux/post-tpm.conf")
