@@ -38,6 +38,10 @@ after = [
     "@stdlib//components/tree_sitter",
     "@stdlib//components/copilot_language_server",
 
+    # --- dotmeow extras ---
+    "fonts",
+    "dev-extras",
+
     # --- custom config components ---
     "fish-config",
     "git-config",
