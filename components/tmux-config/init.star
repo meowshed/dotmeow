@@ -43,6 +43,8 @@ _SCRIPTS = [
     "tmux-focus-push.sh",
     "tmux-vpn-push.sh",
     "tmux-event-push.sh",
+    "tmux-session-picker.sh",
+    "tmux-sesh-last.sh",
 ]
 
 def _tmux_scripts(ctx):
