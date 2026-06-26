@@ -10,6 +10,9 @@ Host *
     IdentityFile ~/.ssh/id_ed25519
 
     # Store passphrases in macOS Keychain so protected keys don't prompt repeatedly.
+    # IgnoreUnknown keeps non-Apple ssh builds (e.g. Homebrew's OpenSSL OpenSSH, which
+    # lacks UseKeychain) from aborting on this option instead of skipping it.
+    IgnoreUnknown UseKeychain
     AddKeysToAgent yes
     UseKeychain yes
 
