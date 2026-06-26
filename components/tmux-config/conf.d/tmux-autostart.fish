@@ -14,5 +14,10 @@ if status is-interactive
     and test -z "$SSH_CONNECTION"
     and string match -qi "ghostty*" -- "$TERM_PROGRAM"
 
+    # Erase meowctl's once-only shell-init guard before exec, so the tmux server is
+    # born with a clean environment. Otherwise every continuum-restored pane inherits
+    # _MEOWCTL_SHELL_DONE at server boot, `meowctl shell fish` skips `meowctl hook
+    # shell`, and starship/mise/zoxide/direnv never initialise in restored panes.
+    set -e _MEOWCTL_SHELL_DONE
     exec tmux new-session -A -s main
 end

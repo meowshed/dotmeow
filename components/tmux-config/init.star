@@ -5,7 +5,9 @@
 #            "@stdlib//components/brew", "@stdlib//components/python"]
 #
 # Links tmux configuration and status bar scripts into their canonical locations.
-# Scripts are committed as executable (chmod +x in repo); no chmod needed at link time.
+# Scripts are chmod +x at install time: meowctl's tarball extraction does not preserve
+# the git execute bit (files land mode 0600), and tmux execve()s the scripts directly
+# via #(...), so they must carry +x or every status segment renders blank.
 #
 # Generates ~/.config/tmux/local.conf with the fish shell path at install time
 # so tmux.conf does not need to hardcode /opt/homebrew/bin/fish.
@@ -79,7 +81,11 @@ def install(ctx):
     ctx.mkdir(ctx.home + "/.config/tmux")
     scripts = _tmux_scripts(ctx)
     ctx.mkdir(scripts)
+    src_scripts = ctx.component_dir + "/scripts"
     for script in _SCRIPTS:
+        # tmux execve()s these directly via #(...); the extracted source loses the
+        # git execute bit, so set +x on the link target before linking.
+        ctx.run("chmod", ["+x", src_scripts + "/" + script])
         ctx.link_file("scripts/" + script, scripts + "/" + script)
 
     ctx.link_file("post-tpm.conf", ctx.home + "/.config/tmux/post-tpm.conf")
