@@ -96,10 +96,7 @@ def install(ctx):
     ctx.run("sudo", ["pmset", "-b", "displaysleep", "5"])
     ctx.run("sudo", ["pmset", "-b", "sleep", "15"])
     ctx.run("sudo", ["pmset", "-c", "sleep", "30"])
-    ctx.run("sudo", ["pmset", "-a", "hibernatemode", "0"])
-    # Remove pre-existing sleepimage; hibernatemode 0 won't write a new one
-    # but doesn't clean up existing files (which can be equal to RAM size).
-    ctx.run("sudo", ["rm", "-f", "/var/vm/sleepimage"])
+    ctx.run("sudo", ["pmset", "-a", "hibernatemode", "3"])
 
     # --- Xcode CLT + Rosetta 2 ---
     ctx.log("Installing foundational developer tools...")
