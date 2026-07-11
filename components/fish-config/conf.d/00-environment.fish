@@ -55,5 +55,13 @@ set -g fish_greeting
 # ---------------------------------------------------------------------------
 # Shell hooks — activate mise and other tools early so they are on PATH
 # before subsequent conf.d files execute.
+#
+# `meowctl hook shell` picks the target shell from $SHELL, not from the fish
+# we are running in. In panes spawned by tmux-resurrect (and other non-login
+# contexts) $SHELL can be stale — a previous login shell, or empty — which
+# makes the hook emit zsh/bash syntax that silently fails to `source` in fish,
+# so starship/zoxide/direnv never initialise. Pin $SHELL to the running fish
+# first so the hook always emits fish.
 # ---------------------------------------------------------------------------
+set -gx SHELL (status fish-path)
 meowctl shell fish | source
