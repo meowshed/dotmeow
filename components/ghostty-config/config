@@ -3,7 +3,10 @@
 # Copyright (c) 2025 Andrew Vasilyev <me@retran.me>
 #
 # @file: components/ghostty-config/config
-# @brief: Ghostty terminal emulator configuration
+# @brief: Ghostty terminal emulator configuration (macOS)
+#
+# Only non-default values are set; anything omitted uses Ghostty's default.
+# Verified against Ghostty 1.3.1 (`ghostty +validate-config`).
 
 # ============================================================================
 # FONT
@@ -13,8 +16,6 @@ font-style = "SemiBold"
 font-size = 14
 # -calt disables contextual alternates (ligatures) intentionally.
 font-feature = -calt
-adjust-cell-width = 0
-adjust-cell-height = 0
 
 # ============================================================================
 # WINDOW
@@ -24,57 +25,48 @@ window-height = 40
 window-padding-x = 4
 window-padding-y = 4
 window-save-state = always
-window-vsync = true
-window-inherit-working-directory = true
-window-inherit-font-size = true
 
+# macOS chrome: transparent titlebar pairs with the glass background below;
+# non-native fullscreen keeps the menu bar / notch and Spaces behaving.
 macos-titlebar-style = transparent
 macos-non-native-fullscreen = true
 
 # ============================================================================
 # VISUAL
 # ============================================================================
-background-opacity = 1.0
-background-blur-radius = 0
-cursor-style = block
+# macOS 26+ native glass material (implies background-blur = true). Cells stay
+# opaque (background-opacity default 1.0), so the glass shows through the window
+# padding. Lower background-opacity below 1.0 to let it bleed through content.
+background-blur = macos-glass-regular
 cursor-style-blink = false
 
 # ============================================================================
 # SHELL
 # ============================================================================
+# fish is the login shell; `detect` would find it too, but pin it explicitly.
+# All shell-integration-features (cursor, sudo, title, ssh-env, ssh-terminfo,
+# path) are enabled by default, so no feature override is needed.
 shell-integration = fish
-shell-integration-features = cursor,sudo,ssh-env,ssh-terminfo
 
 # ============================================================================
 # CLIPBOARD
 # ============================================================================
+# Allow OSC 52 clipboard reads (default is `ask`).
 clipboard-read = allow
-clipboard-write = allow
-clipboard-trim-trailing-spaces = true
-clipboard-paste-protection = true
-clipboard-paste-bracketed-safe = true
+# Disable auto-copy on selection (Ghostty defaults this to `true`).
 copy-on-select = false
 
 # ============================================================================
 # INPUT
 # ============================================================================
 macos-option-as-alt = left
-
 mouse-hide-while-typing = true
+# Slow the discrete mouse wheel (default 3); trackpad precision stays at 1.
 mouse-scroll-multiplier = 1.0
-
-# ============================================================================
-# PERFORMANCE
-# ============================================================================
-# tmux handles scrollback (50k lines) inside muxed sessions; 5000 lines here
-# covers bare Ghostty use (meowctl apply output, pre-tmux sessions, etc.).
-scrollback-limit = 5000
 
 # ============================================================================
 # TERMINAL
 # ============================================================================
-term = xterm-ghostty
-bold-is-bright = false
 resize-overlay = always
 
 # ============================================================================
@@ -92,13 +84,13 @@ keybind = cmd+c=copy_to_clipboard
 keybind = cmd+v=paste_from_clipboard
 keybind = cmd+shift+c=copy_url_to_clipboard
 keybind = shift+insert=paste_from_clipboard
+
 # ============================================================================
 # RENDERING
 # ============================================================================
 adjust-underline-thickness = 1
 adjust-underline-position = 2
 adjust-cursor-thickness = 2
-window-colorspace = srgb
 
 # ============================================================================
 # THEME
