@@ -36,6 +36,7 @@ after = [
     "@stdlib//components/karabiner_elements",
     "@stdlib//components/tree_sitter",
     "@stdlib//components/copilot_language_server",
+    "@stdlib//components/claude-code",
 
     # --- dotmeow extras ---
     "fonts",
@@ -51,6 +52,7 @@ after = [
     "starship-config",
     "bat-config",
     "ghostty-config",
+    "claude-code-config",
     "lazygit-config",
     "eza-config",
     "glow-config",

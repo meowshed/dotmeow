@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(gh *)",
+      "Bash(cargo *)",
+      "Bash(mise *)",
+      "Bash(rustup *)",
+      "Bash(ls *)",
+      "Bash(find *)",
+      "Bash(grep *)",
+      "Bash(qmd *)",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "WebSearch"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  },
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "claude-plugins-official": {
+      "source": { "source": "github", "repo": "anthropics/claude-plugins-official" }
+    }
+  },
+  "statusLine": { "type": "command", "command": "~/.claude/statusline.sh" },
+  "effortLevel": "medium",
+  "theme": "auto",
+  "verbose": true,
+  "autoCompactEnabled": true,
+  "skipWorkflowUsageWarning": true
+}
