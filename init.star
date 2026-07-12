@@ -37,10 +37,9 @@ after = [
     "@stdlib//components/tree_sitter",
     "@stdlib//components/copilot_language_server",
     "@stdlib//components/claude-code",
-
-    # --- dotmeow extras ---
-    "fonts",
-    "dev-extras",
+    "@stdlib//components/claude-desktop",
+    "@stdlib//components/fonts",
+    "@stdlib//components/watch",
 
     # --- custom config components ---
     "fish-config",
@@ -53,7 +52,6 @@ after = [
     "bat-config",
     "ghostty-config",
     "claude-code-config",
-    "claude-desktop",
     "lazygit-config",
     "eza-config",
     "glow-config",
