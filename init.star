@@ -33,7 +33,6 @@ after = [
     "@stdlib//components/pandoc",
     "@stdlib//components/ncdu",
     "@stdlib//components/drawio",
-    "@stdlib//components/karabiner_elements",
     "@stdlib//components/tree_sitter",
     "@stdlib//components/copilot_language_server",
     "@stdlib//components/claude-code",
@@ -59,6 +58,5 @@ after = [
     "btop-config",
     "tealdeer-config",
     "fzf-config",
-    "karabiner-config",
     "macos-defaults",
 ]
