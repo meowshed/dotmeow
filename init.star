@@ -59,4 +59,5 @@ after = [
     "tealdeer-config",
     "fzf-config",
     "macos-defaults",
+    "capslock-control",
 ]
