@@ -27,8 +27,10 @@ def install(ctx):
     # --- Homebrew PATH ---
     r = ctx.run("brew", ["--prefix"])
     bp = r.stdout.strip()
+    # Keep /usr/sbin and /sbin: launchctl config replaces the GUI PATH wholesale,
+    # and dropping them hides lsof, ifconfig, route etc. from apps launched by launchd.
     ctx.run("sudo", ["launchctl", "config", "user", "path",
-             bp + "/bin:" + bp + "/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin"])
+             bp + "/bin:" + bp + "/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"])
 
     # --- general UI/UX ---
     # Mute startup chime. Apple Silicon (arm64) uses StartupMute; Intel uses SystemAudioVolume.
