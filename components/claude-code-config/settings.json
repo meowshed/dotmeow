@@ -9,7 +9,6 @@
       "Bash(ls *)",
       "Bash(find *)",
       "Bash(grep *)",
-      "Bash(qmd *)",
       "Read",
       "Write",
       "Edit",
