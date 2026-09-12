@@ -1,2 +1,2 @@
 module(name = "dotmeow", version = "0.3.15", compat = 1)
-dep(name = "stdlib", version = "0.2.9")
+dep(name = "stdlib", version = "0.2.10")
