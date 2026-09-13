@@ -6,6 +6,12 @@
 # The single dotmeow component — declares all shared dependencies
 # and custom config components. No install hook needed; all work is
 # done by dependencies and child components.
+#
+# Opt-in components live in components/ but are intentionally absent from the
+# `after` list below, so they install only when a machine asks for them:
+#
+#   kubernetes — kubectl, kubectx, stern, helm, k9s
+#                component("@dotmeow//components/kubernetes") in local.star
 
 after = [
     # --- stdlib tools ---
@@ -39,6 +45,35 @@ after = [
     "@stdlib//components/claude-desktop",
     "@stdlib//components/fonts",
     "@stdlib//components/watch",
+
+    # --- shell + file navigation ---
+    "@stdlib//components/yazi",
+    "@stdlib//components/usage",
+    "@stdlib//components/jless",
+    "@stdlib//components/hexyl",
+    "@stdlib//components/ouch",
+    "@stdlib//components/lnav",
+    "@stdlib//components/duckdb",
+    "@stdlib//components/mprocs",
+
+    # --- version control ---
+    "@stdlib//components/difftastic",
+    "@stdlib//components/jj",
+
+    # --- containers ---
+    "@stdlib//components/lazydocker",
+    "@stdlib//components/dive",
+
+    # --- secrets ---
+    "@stdlib//components/sops",
+
+    # --- network + media ---
+    "@stdlib//components/gping",
+    "@stdlib//components/bandwhich",
+    "@stdlib//components/yt_dlp",
+
+    # --- screen recording ---
+    "@stdlib//components/keycastr",
 
     # --- custom config components ---
     "fish-config",
