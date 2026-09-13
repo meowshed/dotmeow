@@ -17,12 +17,12 @@ def install(ctx):
     # --- computer name ---
     name = ctx.prompt("Set a computer name? (leave blank to skip)")
     if name:
-        ctx.run("sudo", ["scutil", "--set", "ComputerName", name])
-        ctx.run("sudo", ["scutil", "--set", "HostName", name])
-        ctx.run("sudo", ["scutil", "--set", "LocalHostName", name])
+        ctx.run("sudo", ["scutil", "--set", "ComputerName", name], interactive = True)
+        ctx.run("sudo", ["scutil", "--set", "HostName", name], interactive = True)
+        ctx.run("sudo", ["scutil", "--set", "LocalHostName", name], interactive = True)
         ctx.run("sudo", ["defaults", "write",
                  "/Library/Preferences/SystemConfiguration/com.apple.smb.server",
-                 "NetBIOSName", "-string", name])
+                 "NetBIOSName", "-string", name], interactive = True)
 
     # --- Homebrew PATH ---
     r = ctx.run("brew", ["--prefix"])
@@ -30,16 +30,16 @@ def install(ctx):
     # Keep /usr/sbin and /sbin: launchctl config replaces the GUI PATH wholesale,
     # and dropping them hides lsof, ifconfig, route etc. from apps launched by launchd.
     ctx.run("sudo", ["launchctl", "config", "user", "path",
-             bp + "/bin:" + bp + "/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"])
+             bp + "/bin:" + bp + "/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"], interactive = True)
 
     # --- general UI/UX ---
     # Mute startup chime. Apple Silicon (arm64) uses StartupMute; Intel uses SystemAudioVolume.
     r = ctx.run("uname", ["-m"])
     arch = r.stdout.strip()
     if arch == "arm64":
-        ctx.run("sudo", ["nvram", "StartupMute=%01"])
+        ctx.run("sudo", ["nvram", "StartupMute=%01"], interactive = True)
     else:
-        ctx.run("sudo", ["nvram", "SystemAudioVolume="])
+        ctx.run("sudo", ["nvram", "SystemAudioVolume="], interactive = True)
     ctx.run("defaults", ["write", "com.apple.finder", "AppleShowAllFiles",
              "-boolean", "true"])
     ctx.run("defaults", ["write", "NSGlobalDomain",
@@ -94,11 +94,11 @@ def install(ctx):
              "Apple Bitpool Min (editable)", "-int", "40"])
 
     # --- energy ---
-    ctx.run("sudo", ["pmset", "-c", "displaysleep", "15"])
-    ctx.run("sudo", ["pmset", "-b", "displaysleep", "5"])
-    ctx.run("sudo", ["pmset", "-b", "sleep", "15"])
-    ctx.run("sudo", ["pmset", "-c", "sleep", "30"])
-    ctx.run("sudo", ["pmset", "-a", "hibernatemode", "3"])
+    ctx.run("sudo", ["pmset", "-c", "displaysleep", "15"], interactive = True)
+    ctx.run("sudo", ["pmset", "-b", "displaysleep", "5"], interactive = True)
+    ctx.run("sudo", ["pmset", "-b", "sleep", "15"], interactive = True)
+    ctx.run("sudo", ["pmset", "-c", "sleep", "30"], interactive = True)
+    ctx.run("sudo", ["pmset", "-a", "hibernatemode", "3"], interactive = True)
 
     # --- Xcode CLT + Rosetta 2 ---
     ctx.log("Installing foundational developer tools...")
@@ -113,7 +113,7 @@ def install(ctx):
         if r.exit_code != 0:
             ctx.log("Installing Rosetta 2 for x86_64 compatibility...")
             ctx.run("sudo", ["softwareupdate", "--install-rosetta",
-                     "--agree-to-license"])
+                     "--agree-to-license"], interactive = True)
         else:
             ctx.log("Rosetta 2 already installed")
 
@@ -124,11 +124,11 @@ def install(ctx):
 
     # --- background daemon priorities ---
     ctx.log("Tuning background daemon priorities...")
-    ctx.run("sudo", ["sysctl", "debug.lowpri_throttle_enabled=0"])
+    ctx.run("sudo", ["sysctl", "debug.lowpri_throttle_enabled=0"], interactive = True)
     # Persist across reboots via /etc/sysctl.conf.
     ctx.run("sudo", ["sh", "-c",
              "grep -qF 'debug.lowpri_throttle_enabled' /etc/sysctl.conf 2>/dev/null " +
-             "|| echo 'debug.lowpri_throttle_enabled=0' >> /etc/sysctl.conf"])
+             "|| echo 'debug.lowpri_throttle_enabled=0' >> /etc/sysctl.conf"], interactive = True)
 
     # --- hardware-specific tuning ---
     ctx.log("Tuning for Studio Display and pro hardware...")
@@ -181,7 +181,7 @@ def install(ctx):
         if r.exit_code != 0:
             ctx.run("/usr/libexec/PlistBuddy", ["-c", "Add " + path + " bool true", finder_plist])
     ctx.run("chflags", ["nohidden", home + "/Library"])
-    ctx.run("sudo", ["chflags", "nohidden", "/Volumes"])
+    ctx.run("sudo", ["chflags", "nohidden", "/Volumes"], interactive = True)
     ctx.run("open", ["-a", "Finder"])
 
     # --- Dock ---
@@ -240,10 +240,10 @@ def install(ctx):
              "DoNotOfferNewDisksForBackup", "-bool", "true"])
     ctx.run("mkdir", ["-p", home + "/workspace"])
     ctx.run("touch", [home + "/workspace/.metadata_never_index"])
-    ctx.run("sudo", ["mdutil", "-E", "/"])
+    ctx.run("sudo", ["mdutil", "-E", "/"], interactive = True)
     ctx.run("sudo", ["defaults", "write",
              "/Library/Preferences/com.apple.SpotlightServer.plist",
-             "ExternalVolumesIgnore", "-bool", "true"])
+             "ExternalVolumesIgnore", "-bool", "true"], interactive = True)
     ctx.run("defaults", ["write", "com.apple.Console", "DebugMenu",
              "-bool", "true"])
     ctx.run("defaults", ["write", "com.apple.Console",
