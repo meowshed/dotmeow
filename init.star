@@ -75,9 +75,6 @@ after = [
     # --- screen recording ---
     "@stdlib//components/keycastr",
 
-    # --- menu bar ---
-    "@stdlib//components/ice",
-
     # --- custom config components ---
     "fish-config",
     "git-config",
