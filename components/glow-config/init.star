@@ -8,14 +8,23 @@
 
 after = ["@stdlib//bundles/modern-macos"]
 
-_STYLE_URL = "https://raw.githubusercontent.com/catppuccin/glow/main/themes/catppuccin-mocha.json"
+# The Catppuccin port for glamour, which is the renderer glow uses. There is
+# no catppuccin/glow repository — pointing here at one returned 404 on every
+# install, and curl -f writes no file on an HTTP error, so the style was simply
+# never there.
+_STYLE_URL = "https://raw.githubusercontent.com/catppuccin/glamour/main/themes/catppuccin-mocha.json"
 
 def _ensure_style(ctx):
     d = ctx.home + "/.config/glow"
     style = d + "/catppuccin-mocha.json"
-    if not ctx.file_exists(style):
-        ctx.run("curl", ["-fsSL", "-o", style, _STYLE_URL])
-        ctx.log("glow-config: downloaded Catppuccin Mocha style")
+    if ctx.file_exists(style):
+        return
+    r = ctx.run("curl", ["-fsSL", "-o", style, _STYLE_URL])
+    if r.exit_code != 0:
+        ctx.log("glow-config: style download failed (curl exit " +
+                str(r.exit_code) + "): " + _STYLE_URL)
+        return
+    ctx.log("glow-config: downloaded Catppuccin Mocha style")
 
 def install(ctx):
     d = ctx.home + "/.config/glow"
