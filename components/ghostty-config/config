@@ -36,13 +36,11 @@ macos-non-native-fullscreen = true
 # ============================================================================
 # macOS 26+ native glass material (implies background-blur = true).
 background-blur = macos-glass-regular
-# Let the glass bleed through the content area, not just the window padding.
-# Only the *default* background is translucent: `background-opacity-cells`
-# stays at its default (false), so selections, search hits and colored cell
-# backgrounds keep painting solid and stay readable over the desktop.
+# Only the default background is translucent: background-opacity-cells stays
+# false, so selections and coloured cells keep painting solid.
 background-opacity = 0.85
-# Inactive splits recede a little further (Ghostty's default is 0.7 — keep the
-# contrast gentler now that the focused split is already translucent).
+# Gentler than Ghostty's 0.7 default, since the focused split is already
+# translucent.
 unfocused-split-opacity = 0.9
 cursor-style-blink = false
 
@@ -57,8 +55,9 @@ shell-integration = fish
 # ============================================================================
 # CLIPBOARD
 # ============================================================================
-# Allow OSC 52 clipboard reads (default is `ask`).
-clipboard-read = allow
+# Left at the default (`ask`): `allow` lets anything writing to this terminal,
+# including over ssh, read the clipboard silently. Writes are a separate option.
+# clipboard-read = allow
 # Disable auto-copy on selection (Ghostty defaults this to `true`).
 copy-on-select = false
 
@@ -101,5 +100,7 @@ adjust-cursor-thickness = 2
 # ============================================================================
 # THEME
 # ============================================================================
-# Follows macOS appearance; switches between Latte (light) and Mocha (dark).
-theme = "light:Catppuccin Latte,dark:Catppuccin Mocha"
+# Pinned, not following the system appearance: tmux, fzf, bat, btop, lazygit,
+# glow, starship and neovim are all hard-coded to Mocha, so switching only the
+# terminal gave a light background around eight dark programs.
+theme = "Catppuccin Mocha"
