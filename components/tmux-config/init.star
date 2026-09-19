@@ -18,7 +18,7 @@
 #
 # Dependencies:
 #   - osx-cpu-temp  (brew)  — CPU temperature widget (Intel only; silently skipped on Apple Silicon)
-#   - libtmux       (pip3)  — required by ofirgall/tmux-window-name plugin
+#   - libtmux       (pip)   — required by ofirgall/tmux-window-name plugin
 #
 # TPM bootstrap (one-time, run after first meowctl apply):
 #   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -69,9 +69,19 @@ def _write_local_conf(ctx):
     else:
         ctx.log("tmux-config: fish not found — local.conf not written; tmux will use default shell")
 
+def _install_libtmux(ctx):
+    # Installed with pip into the python the plugin will actually run under,
+    # not through the python package manager: that routes to mise's pipx
+    # backend, and pipx installs applications. libtmux is a library with no
+    # entry points, so the install fails with "Failed to install entrypoints".
+    #
+    # The interpreter matters as much as the method — the plugin's shebang is
+    # `env python3`, so it gets whichever python3 leads PATH, and a copy of
+    # libtmux sitting in some other interpreter does it no good.
+    ctx.run("sh", ["-c", "python3 -m pip install --quiet --upgrade libtmux"])
+
 def _install_deps():
     pkg(manager = "brew", name = "osx-cpu-temp")
-    pkg(manager = "python", name = "libtmux")
 
 def install(ctx):
     tpm_path = ctx.home + "/.tmux/plugins/tpm"
@@ -98,13 +108,13 @@ def install(ctx):
     ctx.link_file("post-tpm.conf", ctx.home + "/.config/tmux/post-tpm.conf")
 
     _write_local_conf(ctx)
+    _install_libtmux(ctx)
     _install_deps()
     ctx.log("tmux-config: linked tmux configuration")
 
 def upgrade(ctx):
     install(ctx)
     uppkg(manager = "brew", name = "osx-cpu-temp")
-    uppkg(manager = "python", name = "libtmux")
     tpm_path = ctx.home + "/.tmux/plugins/tpm"
     if ctx.file_exists(tpm_path):
         ctx.run("git", ["-C", tpm_path, "pull", "--ff-only"])
@@ -130,7 +140,6 @@ def verify(ctx):
 
 def uninstall(ctx):
     unpkg(manager = "brew", name = "osx-cpu-temp")
-    unpkg(manager = "python", name = "libtmux")
     ctx.remove_symlink(ctx.home + "/.tmux.conf")
     ctx.remove_symlink(ctx.home + "/.config/fish/conf.d/tmux-autostart.fish")
     ctx.remove_symlink(ctx.home + "/.config/tmux/post-tpm.conf")
