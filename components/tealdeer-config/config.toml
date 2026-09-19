@@ -1,5 +1,9 @@
 # ~/.config/tealdeer/config.toml
 # Tealdeer configuration — https://tealdeer-rs.github.io/tealdeer/config.html
+#
+# Colours are rgb tables, not hex strings: tealdeer accepts only its named
+# colours or { rgb = { r, g, b } }, and a hex string makes it refuse to start
+# with "unknown variant".
 
 [display]
 use_pager = true
@@ -14,18 +18,18 @@ auto_update_interval_hours = 720
 platforms = ["macos", "common", "all"]
 
 [style.command_name]
-foreground = "#89b4fa"
+foreground = { rgb = { r = 137, g = 180, b = 250 } }
 bold = true
 
 [style.description]
-foreground = "#cdd6f4"
+foreground = { rgb = { r = 205, g = 214, b = 244 } }
 
 [style.example_text]
-foreground = "#94e2d5"
+foreground = { rgb = { r = 148, g = 226, b = 213 } }
 
 [style.example_code]
-foreground = "#a6e3a1"
+foreground = { rgb = { r = 166, g = 227, b = 161 } }
 
 [style.example_variable]
-foreground = "#94e2d5"
+foreground = { rgb = { r = 148, g = 226, b = 213 } }
 underline = true
