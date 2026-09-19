@@ -7,6 +7,13 @@
 #
 # All replacements are conditional: if the modern tool is not installed,
 # the original builtin remains available.
+#
+# Interactive shells only. Without this guard the wrappers below also replaced
+# ls, cat, less and vim inside `fish -c` scripts: bat and eza behave when their
+# output is not a terminal, but eza's listing format is not ls's, so a script
+# parsing `ls` would quietly read the wrong thing. `return` in a sourced file
+# stops the sourcing, which is why this needs no wrapping block.
+status is-interactive; or return
 
 # ---------------------------------------------------------------------------
 # neovim — replace vim/vi

@@ -38,6 +38,7 @@ def install(ctx):
     ctx.link_file("conf.d/30-aliases.fish",        fish + "/conf.d/30-aliases.fish")
     ctx.link_file("conf.d/99-local.fish",          fish + "/conf.d/99-local.fish")
     ctx.link_file("conf.d/zz-fzf-bindings.fish",  fish + "/conf.d/zz-fzf-bindings.fish")
+    ctx.link_file("conf.d/zzz-tldr.fish",          fish + "/conf.d/zzz-tldr.fish")
 
     # Autoloaded functions
     ctx.link_file("functions/mkcd.fish",   fish + "/functions/mkcd.fish")
