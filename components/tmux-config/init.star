@@ -41,12 +41,19 @@ _SCRIPTS = [
     "tmux-battery.sh",
     "tmux-date.sh",
     "tmux-time.sh",
-    "tmux-keyboard-push.sh",
-    "tmux-focus-push.sh",
-    "tmux-vpn-push.sh",
-    "tmux-event-push.sh",
     "tmux-session-picker.sh",
     "tmux-sesh-last.sh",
+    "tmux-window-rename.sh",
+    "tmux-which-key.sh",
+    "tmux-jump.sh",
+    "tmux-hint-bar.sh",
+    "tmux-float.sh",
+    "tmux-scrollback.sh",
+    "tmux-confirm.sh",
+    "tmux-input.sh",
+    "tmux-search.sh",
+    "tmux-session-rename.sh",
+    "tmux-command-palette.sh",
 ]
 
 def _tmux_scripts(ctx):
