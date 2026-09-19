@@ -53,8 +53,9 @@ $mise\
 $docker_context\
 $container\
 $jobs\
-$cmd_duration\
 $status\
+$fill\
+$cmd_duration\
 $line_break\
 $character\
 """
@@ -179,8 +180,8 @@ tag_disabled = false
 disabled = false
 
 [git_status]
+# Off: git status walks the whole worktree and stalls the prompt on a big repo.
 disabled = true
-
 [git_metrics]
 disabled = true
 
@@ -222,7 +223,10 @@ style = "fg:color_env"
 format = '( [$symbol( $version)]($style) )'
 
 [java]
-symbol = ""
+# Off: boots a JVM. mise owns the toolchain version.
+disabled = true
+
+symbol = ""
 style = "fg:color_env"
 format = '( [$symbol( $version)]($style) )'
 
@@ -310,6 +314,11 @@ disabled = true
 time_format = "%R"
 style = "fg:color_time"
 format = '( [󰔛 $time]($style) )'
+
+[fill]
+# Pushes cmd_duration to the right edge of the first line; right_format would
+# put it on the second, next to the prompt character.
+symbol = ' '
 
 [cmd_duration]
 min_time = 2000
