@@ -7,4 +7,4 @@ layout=$(defaults read "$HOME/Library/Preferences/com.apple.HIToolbox.plist" \
 
 [[ "$layout" == *Russian* ]] || exit 0
 
-printf '#[fg=#89b4fa,bg=#1e1e2e]󰌌 RU '
+printf '#[fg=#89b4fa,bg=default]󰌌 RU '

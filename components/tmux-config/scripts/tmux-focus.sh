@@ -24,4 +24,4 @@ case "$mode_id" in
         ;;
 esac
 
-printf '#[fg=#cba6f7,bg=#1e1e2e]%s ' "$icon"
+printf '#[fg=#cba6f7,bg=default]%s ' "$icon"

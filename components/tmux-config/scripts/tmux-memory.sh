@@ -34,4 +34,4 @@ elif [ "$pct" -ge 80 ]; then color="#fab387"
 else                         color="#f9e2af"
 fi
 
-printf '#[fg=%s,bg=#1e1e2e]󰍛 %sG ' "$color" "$used_gib"
+printf '#[fg=%s,bg=default]󰍛 %sG ' "$color" "$used_gib"

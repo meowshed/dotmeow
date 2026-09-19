@@ -28,4 +28,4 @@ case "$mode_id" in
 esac
 
 tmux set-option -g @tmux_focus_val \
-    "$(printf '#[fg=#cba6f7,bg=#1e1e2e]%s %s ' "$icon" "$label")" 2>/dev/null || true
+    "$(printf '#[fg=#cba6f7,bg=default]%s %s ' "$icon" "$label")" 2>/dev/null || true

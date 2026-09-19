@@ -13,4 +13,4 @@ elif [ "$temp" -ge 85 ]; then color="#fab387"
 else                          color="#f9e2af"
 fi
 
-printf '#[fg=%s,bg=#1e1e2e]󰔐 %d° ' "$color" "$temp"
+printf '#[fg=%s,bg=default]󰔐 %d° ' "$color" "$temp"

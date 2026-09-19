@@ -29,4 +29,4 @@ else
     fi
 fi
 
-printf '#[fg=%s,bg=#1e1e2e]%s ' "$color" "$icon"
+printf '#[fg=%s,bg=default]%s ' "$color" "$icon"

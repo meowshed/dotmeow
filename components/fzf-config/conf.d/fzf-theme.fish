@@ -21,7 +21,7 @@ if command -q fzf
     end
 
     set -gx FZF_DEFAULT_OPTS "\
---color=bg:#1e1e2e,fg:#cdd6f4 \
+--color=bg:-1,fg:#cdd6f4 \
 --color=bg+:#313244,fg+:#cdd6f4 \
 --color=selected-bg:#45475a \
 --color=hl:#f38ba8,hl+:#f38ba8 \
@@ -30,6 +30,7 @@ if command -q fzf
 --color=pointer:#f5e0dc,spinner:#f5e0dc \
 --color=marker:#b4befe \
 --color=border:#6c7086,label:#cdd6f4 \
+--color=gutter:-1 \
 --layout=reverse \
 --height=40% \
 --border=rounded \

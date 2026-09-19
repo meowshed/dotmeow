@@ -18,7 +18,7 @@ if [ -f "$CACHE" ]; then
         elif [ "$mb" -ge 50 ];  then color="#fab387"
         else                         color="#f9e2af"
         fi
-        printf '#[fg=%s,bg=#1e1e2e]󰋊 %dM/s ' "$color" "$mb"
+        printf '#[fg=%s,bg=default]󰋊 %dM/s ' "$color" "$mb"
     fi
 fi
 

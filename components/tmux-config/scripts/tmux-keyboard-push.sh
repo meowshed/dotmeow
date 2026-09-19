@@ -17,4 +17,4 @@ case "$layout" in
 esac
 
 tmux set-option -g @tmux_keyboard_val \
-    "$(printf '#[fg=#89b4fa,bg=#1e1e2e]󰌌 %s  ' "$label")" 2>/dev/null || true
+    "$(printf '#[fg=#89b4fa,bg=default]󰌌 %s  ' "$label")" 2>/dev/null || true

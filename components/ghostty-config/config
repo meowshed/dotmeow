@@ -34,10 +34,16 @@ macos-non-native-fullscreen = true
 # ============================================================================
 # VISUAL
 # ============================================================================
-# macOS 26+ native glass material (implies background-blur = true). Cells stay
-# opaque (background-opacity default 1.0), so the glass shows through the window
-# padding. Lower background-opacity below 1.0 to let it bleed through content.
+# macOS 26+ native glass material (implies background-blur = true).
 background-blur = macos-glass-regular
+# Let the glass bleed through the content area, not just the window padding.
+# Only the *default* background is translucent: `background-opacity-cells`
+# stays at its default (false), so selections, search hits and colored cell
+# backgrounds keep painting solid and stay readable over the desktop.
+background-opacity = 0.85
+# Inactive splits recede a little further (Ghostty's default is 0.7 — keep the
+# contrast gentler now that the focused split is already translucent).
+unfocused-split-opacity = 0.9
 cursor-style-blink = false
 
 # ============================================================================

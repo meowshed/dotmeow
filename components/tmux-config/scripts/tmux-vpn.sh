@@ -10,4 +10,4 @@ active=$(ifconfig 2>/dev/null | awk '
     /^[a-z]/ { iface = 0 }
 ')
 
-[ -n "$active" ] && printf '#[fg=#cba6f7,bg=#1e1e2e]󰖂 '
+[ -n "$active" ] && printf '#[fg=#cba6f7,bg=default]󰖂 '
