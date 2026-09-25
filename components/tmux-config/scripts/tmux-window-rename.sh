@@ -4,9 +4,9 @@
 #   tmux-window-rename.sh           rename the current window
 #   tmux-window-rename.sh --pick    choose a window first, then rename it
 #
-# The input starts with the window's current label, ready to edit. Enter takes
-# the input exactly as typed; Tab copies the highlighted suggestion into it.
-# An empty input restores automatic naming.
+# The input starts with the window's current label, ready to edit. Moving to a
+# suggestion copies it into the input, so the input always shows what Enter
+# saves. An empty input restores automatic naming.
 #
 # Suggestions come from the pane you work in: cwd, running command, git repo
 # and branch. The popup is itself a floating pane and the active one, so the
@@ -111,9 +111,9 @@ out=$(fzf \
     --delimiter="$TAB" --with-nth=1,2 \
     --query "$current" \
     --prompt '  ' \
-    --header " Rename window $index — Enter keeps the input, Tab copies a suggestion, empty = automatic" \
+    --header " Rename window $index — Enter saves the input, empty = automatic" \
     --bind 'enter:print-query' \
-    --bind 'tab:transform-query:printf %s {1} | tr -d "\t"' \
+    --bind 'focus:transform-query:printf %s {1} | tr -d "\t"' \
     <"${TMPDIR:-/tmp}/tmux-rename.$$")
 status=$?
 rm -f "${TMPDIR:-/tmp}/tmux-rename.$$"
