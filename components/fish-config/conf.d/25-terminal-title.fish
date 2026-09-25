@@ -32,9 +32,9 @@ function __title_format
     end
 end
 
-# Inside tmux, ofirgall/tmux-window-name drives window naming; OSC-2 titles
-# from fish_title pass through and can override it. Disable both hooks when
-# running under tmux.
+# Inside tmux, automatic-rename drives window naming (see post-tpm.conf in
+# tmux-config); OSC-2 titles from fish_title pass through and can override it.
+# Disable both hooks when running under tmux.
 if not set -q TMUX
     # Window title shown in the OS title bar (all fish versions).
     function fish_title

@@ -2,7 +2,7 @@
 #
 # platform: macos
 # after:    ["@stdlib//components/tmux", "@stdlib//components/sesh", "@stdlib//components/fish",
-#            "@stdlib//components/brew", "@stdlib//components/python"]
+#            "@stdlib//components/brew"]
 #
 # Links tmux configuration and status bar scripts into their canonical locations.
 # Scripts are chmod +x at install time: meowctl's tarball extraction does not preserve
@@ -18,7 +18,6 @@
 #
 # Dependencies:
 #   - osx-cpu-temp  (brew)  — CPU temperature widget (Intel only; silently skipped on Apple Silicon)
-#   - libtmux       (pip)   — required by ofirgall/tmux-window-name plugin
 #
 # TPM bootstrap (one-time, run after first meowctl apply):
 #   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -26,7 +25,7 @@
 
 platforms = ["macos"]
 after = ["@stdlib//components/tmux", "@stdlib//components/sesh", "@stdlib//components/fish",
-         "@stdlib//components/brew", "@stdlib//components/python"]
+         "@stdlib//components/brew"]
 
 _SCRIPTS = [
     "tmux-keyboard.sh",
@@ -69,17 +68,6 @@ def _write_local_conf(ctx):
     else:
         ctx.log("tmux-config: fish not found — local.conf not written; tmux will use default shell")
 
-def _install_libtmux(ctx):
-    # Installed with pip into the python the plugin will actually run under,
-    # not through the python package manager: that routes to mise's pipx
-    # backend, and pipx installs applications. libtmux is a library with no
-    # entry points, so the install fails with "Failed to install entrypoints".
-    #
-    # The interpreter matters as much as the method — the plugin's shebang is
-    # `env python3`, so it gets whichever python3 leads PATH, and a copy of
-    # libtmux sitting in some other interpreter does it no good.
-    ctx.run("sh", ["-c", "python3 -m pip install --quiet --upgrade libtmux"])
-
 def _install_deps():
     pkg(manager = "brew", name = "osx-cpu-temp")
 
@@ -108,7 +96,6 @@ def install(ctx):
     ctx.link_file("post-tpm.conf", ctx.home + "/.config/tmux/post-tpm.conf")
 
     _write_local_conf(ctx)
-    _install_libtmux(ctx)
     _install_deps()
     ctx.log("tmux-config: linked tmux configuration")
 
