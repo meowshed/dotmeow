@@ -5,8 +5,8 @@
 #
 # Links gh config into ~/.config/gh/config.yml.
 # hosts.yml is managed by `gh auth login` — not touched.
-# Also installs a fish conf.d snippet that exports GITHUB_TOKEN from gh's
-# stored token so mise and other tools can make authenticated GitHub API calls.
+# Also installs a fish conf.d snippet that exports MISE_GITHUB_TOKEN from gh's
+# stored token so mise can make authenticated GitHub API calls.
 
 after = ["@stdlib//components/gh", "@stdlib//components/fish"]
 

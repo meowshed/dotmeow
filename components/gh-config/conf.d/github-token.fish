@@ -1,5 +1,8 @@
-# Set GITHUB_TOKEN from gh CLI so that mise and other tools can make
-# authenticated GitHub API requests (avoids 60 req/hr anonymous rate limit).
+# Set MISE_GITHUB_TOKEN from gh CLI so that mise makes authenticated GitHub API
+# requests (avoids 60 req/hr anonymous rate limit).
+#
+# Not GITHUB_TOKEN: gh prefers that variable over its keyring login, so an
+# exported copy shadows the login and `gh auth refresh` cannot take effect.
 #
 # Token is cached in ~/.cache/gh-token (mode 600) for 1 hour to avoid
 # forking a gh subprocess on every pane open.
@@ -27,6 +30,6 @@ if command -q gh
     end
 
     if test -n "$token"
-        set -gx GITHUB_TOKEN $token
+        set -gx MISE_GITHUB_TOKEN $token
     end
 end
