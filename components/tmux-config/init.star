@@ -70,6 +70,9 @@ def _write_local_conf(ctx):
 
 def _install_deps():
     pkg(manager = "brew", name = "osx-cpu-temp")
+    # tmux-autoreload watches the config with entr and needs GNU realpath.
+    pkg(manager = "brew", name = "entr")
+    pkg(manager = "brew", name = "coreutils")
 
 def install(ctx):
     tpm_path = ctx.home + "/.tmux/plugins/tpm"
@@ -102,6 +105,8 @@ def install(ctx):
 def upgrade(ctx):
     install(ctx)
     uppkg(manager = "brew", name = "osx-cpu-temp")
+    uppkg(manager = "brew", name = "entr")
+    uppkg(manager = "brew", name = "coreutils")
     tpm_path = ctx.home + "/.tmux/plugins/tpm"
     if ctx.file_exists(tpm_path):
         ctx.run("git", ["-C", tpm_path, "pull", "--ff-only"])
@@ -127,6 +132,8 @@ def verify(ctx):
 
 def uninstall(ctx):
     unpkg(manager = "brew", name = "osx-cpu-temp")
+    unpkg(manager = "brew", name = "entr")
+    # coreutils stays: the shell config relies on it too.
     ctx.remove_symlink(ctx.home + "/.tmux.conf")
     ctx.remove_symlink(ctx.home + "/.config/fish/conf.d/tmux-autostart.fish")
     ctx.remove_symlink(ctx.home + "/.config/tmux/post-tpm.conf")
