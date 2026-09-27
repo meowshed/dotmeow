@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "blender": {
+      "command": "uvx",
+      "args": ["mcp-for-blender@2.1.1"],
+      "env": {
+        "DISABLE_TELEMETRY": "true",
+        "BLENDER_MCP_DISABLE_TELEMETRY": "true"
+      }
+    }
+  },
+  "preferences": {
+    "coworkBrowserToolsEnabled": true,
+    "coworkPreferredBrowser": "built_in",
+    "coworkWebSearchEnabled": true,
+    "coworkScheduledTasksEnabled": true,
+    "ccdScheduledTasksEnabled": true,
+    "chicagoEnabled": true,
+    "sidebarMode": "chat"
+  }
+}

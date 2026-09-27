@@ -86,6 +86,7 @@ after = [
     "bat-config",
     "ghostty-config",
     "claude-code-config",
+    "claude-desktop-config",
     "lazygit-config",
     "eza-config",
     "glow-config",
