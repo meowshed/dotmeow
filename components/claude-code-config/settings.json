@@ -1,38 +1,140 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git *)",
-      "Bash(gh *)",
-      "Bash(cargo *)",
-      "Bash(mise *)",
-      "Bash(rustup *)",
-      "Bash(ls *)",
-      "Bash(find *)",
+      "Bash(cargo build *)",
+      "Bash(cargo check *)",
+      "Bash(cargo clippy *)",
+      "Bash(cargo fmt *)",
+      "Bash(cargo metadata *)",
+      "Bash(cargo test *)",
+      "Bash(cargo tree *)",
+      "Bash(ffprobe *)",
+      "Bash(gh issue list *)",
+      "Bash(gh issue view *)",
+      "Bash(gh pr checks *)",
+      "Bash(gh pr diff *)",
+      "Bash(gh pr list *)",
+      "Bash(gh pr view *)",
+      "Bash(gh run list *)",
+      "Bash(gh run view *)",
+      "Bash(git add *)",
+      "Bash(git blame *)",
+      "Bash(git branch *)",
+      "Bash(git commit *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git stash *)",
+      "Bash(git status *)",
+      "Bash(git switch *)",
       "Bash(grep *)",
-      "Read",
-      "Write",
+      "Bash(ls *)",
+      "Bash(magick identify *)",
+      "Bash(mise current *)",
+      "Bash(mise ls *)",
+      "Bash(pdfimages -list *)",
+      "Bash(pdfinfo *)",
+      "Bash(pdftotext *)",
+      "Bash(rustup show *)",
       "Edit",
       "Glob",
       "Grep",
-      "WebSearch"
+      "Read",
+      "WebSearch",
+      "Write"
     ],
-    "deny": [],
+    "deny": [
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.config/gh/**)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(git reset --hard *)",
+      "Bash(git clean *)",
+      "Bash(gh repo delete *)",
+      "Bash(gh secret *)",
+      "Bash(cargo publish *)",
+      "Bash(rm -rf *)"
+    ],
     "defaultMode": "default"
   },
+  "disableClaudeAiConnectors": true,
+  "skillOverrides": {
+    "built-in-browser": "off",
+    "chrome-browser": "off",
+    "computer-use": "off",
+    "docs": "off",
+    "docx": "off",
+    "pptx": "off",
+    "xlsx": "off",
+    "anthropic-skills:deep-research": "off",
+    "skill-creator": "off",
+    "pdf": "off"
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude Code is waiting for you\" with title \"Claude Code\"'; [ -n \"$TMUX\" ] && tmux display-message \"Claude Code is waiting\"; exit 0"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  },
   "enabledPlugins": {
-    "rust-analyzer-lsp@claude-plugins-official": true,
-    "lua-lsp@claude-plugins-official": true,
-    "code-review@claude-plugins-official": true
+    "meow-core@meowpaw": true,
+    "meow-prose@meowpaw": true,
+    "meow-verbs@meowpaw": true,
+    "meow-scm@meowpaw": true,
+    "meow-git@meowpaw": true,
+    "meow-github@meowpaw": true,
+    "meow-flow@meowpaw": true,
+    "meow-author@meowpaw": true,
+    "cowork-plugin-management@synced": false,
+    "context7@claude-plugins-official": true,
+    "session-report@claude-plugins-official": true,
+    "design@synced": false,
+    "legal@synced": false,
+    "code-review@claude-plugins-official": true,
+    "meow-code@meowpaw": true,
+    "meow-prose-gate@meowpaw": true,
+    "meow-licence@meowpaw": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-plugins-official": {
-      "source": { "source": "github", "repo": "anthropics/claude-plugins-official" }
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    },
+    "meowpaw": {
+      "source": {
+        "source": "url",
+        "url": "https://meow.retran.me/meowpaw/marketplace.json"
+      }
     }
   },
-  "statusLine": { "type": "command", "command": "~/.claude/statusline.sh" },
   "effortLevel": "medium",
+  "pluginConfigs": {
+    "agents-md@builtin": {
+      "options": {
+        "instructionFiles": "claude-md-or-agents-md"
+      }
+    }
+  },
+  "skipWorkflowUsageWarning": true,
   "theme": "auto",
-  "verbose": true,
+  "editorMode": "normal",
+  "verbose": false,
   "autoCompactEnabled": true,
-  "skipWorkflowUsageWarning": true
+  "agentPushNotifEnabled": true
 }
