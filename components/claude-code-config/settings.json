@@ -92,7 +92,6 @@
   "enabledPlugins": {
     "meow-core@meowpaw": true,
     "meow-prose@meowpaw": true,
-    "meow-verbs@meowpaw": true,
     "meow-scm@meowpaw": true,
     "meow-git@meowpaw": true,
     "meow-github@meowpaw": true,
@@ -107,7 +106,22 @@
     "meow-code@meowpaw": true,
     "meow-prose-gate@meowpaw": true,
     "meow-licence@meowpaw": true,
-    "rust-analyzer-lsp@claude-plugins-official": true
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "meow-checks@meowpaw": true,
+    "meow-csharp@meowpaw": true,
+    "meow-go@meowpaw": true,
+    "meow-godot@meowpaw": true,
+    "meow-gotask@meowpaw": true,
+    "meow-loop@meowpaw": true,
+    "meow-lua@meowpaw": true,
+    "meow-markdown@meowpaw": true,
+    "meow-mise@meowpaw": true,
+    "meow-python@meowpaw": true,
+    "meow-rust@meowpaw": true,
+    "meow-scheme@meowpaw": true,
+    "meow-starlark@meowpaw": true,
+    "meow-typescript@meowpaw": true,
+    "meow-unattended@meowpaw": true
   },
   "extraKnownMarketplaces": {
     "claude-plugins-official": {
