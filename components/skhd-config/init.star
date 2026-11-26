@@ -69,18 +69,34 @@ def _require_skhd(ctx):
     if not ctx.which("skhd"):
         fail("skhd-config: skhd is not on PATH; @stdlib//components/skhd failed to install it (run `brew install koekeishiya/formulae/skhd` to see why)")
 
+def _plist(ctx):
+    return ctx.home + "/Library/LaunchAgents/com.koekeishiya.skhd.plist"
+
+def _service(ctx):
+    # skhd runs every command through `$SHELL -c`. The service inherits
+    # SHELL from the login session, so with fish each hotkey paid for a full
+    # config.fish load, about 0.4 s. skhd 0.3.9 has no `.shell` option, so
+    # the LaunchAgent pins SHELL=/bin/sh instead. `--restart-service` only
+    # kickstarts the job and keeps the old environment; stop and start make
+    # launchd read the plist again.
+    if not ctx.file_exists(_plist(ctx)):
+        ctx.run("skhd", ["--install-service"])
+    ctx.run("plutil", ["-replace", "EnvironmentVariables.SHELL", "-string", "/bin/sh", _plist(ctx)])
+    ctx.run("skhd", ["--stop-service"])
+    ctx.run("skhd", ["--start-service"])
+
 def install(ctx):
     _require_skhd(ctx)
     _write_config(ctx)
     _space_switching(ctx)
-    ctx.run("skhd", ["--start-service"])
+    _service(ctx)
     ctx.log("skhd-config: grant skhd Accessibility access if macOS asks for it")
 
 def upgrade(ctx):
     _require_skhd(ctx)
     _write_config(ctx)
     _space_switching(ctx)
-    ctx.run("skhd", ["--restart-service"])
+    _service(ctx)
 
 def verify(ctx):
     if not ctx.file_exists(_skhdrc(ctx)):
