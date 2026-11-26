@@ -96,4 +96,5 @@ after = [
     "fzf-config",
     "macos-defaults",
     "capslock-control",
+    "skhd-config",
 ]
