@@ -59,18 +59,25 @@ def _write_config(ctx):
 def _space_switching(ctx):
     # "When switching to an application, switch to a Space with open windows
     # for the application". Unset means on, so only an explicit 0 is fixed.
-    r = ctx.run("defaults", ["read", "com.apple.dock", "workspaces-auto-swoosh"])
-    if r.exit_code == 0 and r.stdout.strip() == "0":
+    # `defaults read` exits 1 on an unset key; the shell keeps that quiet.
+    r = ctx.run("sh", ["-c", "defaults read com.apple.dock workspaces-auto-swoosh 2>/dev/null || true"])
+    if r.stdout.strip() == "0":
         ctx.run("defaults", ["write", "com.apple.dock", "workspaces-auto-swoosh", "-bool", "true"])
         ctx.run("killall", ["Dock"])
 
+def _require_skhd(ctx):
+    if not ctx.which("skhd"):
+        fail("skhd-config: skhd is not on PATH; @stdlib//components/skhd failed to install it (run `brew install koekeishiya/formulae/skhd` to see why)")
+
 def install(ctx):
+    _require_skhd(ctx)
     _write_config(ctx)
     _space_switching(ctx)
     ctx.run("skhd", ["--start-service"])
     ctx.log("skhd-config: grant skhd Accessibility access if macOS asks for it")
 
 def upgrade(ctx):
+    _require_skhd(ctx)
     _write_config(ctx)
     _space_switching(ctx)
     ctx.run("skhd", ["--restart-service"])
